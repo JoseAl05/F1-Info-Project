@@ -1,5 +1,12 @@
 const Sequelize = require("sequelize");
-const CircuitsModel = require("./models").circuits
+const CircuitsModel = require("./models").circuits;
+const DriversModel = require("./models").drivers;
+const ConstructorsModel = require("./models").constructors;
+const RaceModel = require("./models").races;
+const ResultsModel = require("./models").results;
+const DriverStandingsModel = require("./models").driverstandings;
+const StatusModel = require("./models").status;
+const QualifyModel = require("./models").qualify;
 
 const sequelize = new Sequelize('f1_info','mysql','jpal0598deser',{
     host:'localhost',
@@ -18,8 +25,15 @@ sequelize.authenticate()
   })
 
 const Circuit = new CircuitsModel(sequelize, Sequelize);
+const Driver = new DriversModel(sequelize,Sequelize);
+const Constructor = new ConstructorsModel(sequelize,Sequelize);
+const Race = new RaceModel(sequelize,Sequelize);
+const Results= new ResultsModel(sequelize,Sequelize);
+const DriverStandings = new DriverStandingsModel(sequelize,Sequelize);
+const Status = new StatusModel(sequelize,Sequelize);
+const Qualify = new QualifyModel(sequelize,Sequelize);
 
-sequelize.sync({
+await sequelize.sync({
     force: true
 })
 .then(() => {
@@ -27,5 +41,12 @@ sequelize.sync({
 })
 
 module.exports = {
-  Circuit
+  Circuit,
+  Driver,
+  Constructor,
+  Race,
+  Results,
+  DriverStandings,
+  Status,
+  Qualify
 }

@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+const bodyParser = require('body-parser');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -8,12 +9,12 @@ const cors = require("cors");
 
 var app = express();
 
-var corsOptions = {
-  origin: "http://localhost:5000"
-};
 
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin:'http://localhost:3000',
+  })
+);
 app.set('port',process.env.PORT || 5000);
 app.use(morgan('dev'));
 app.use(express.json());

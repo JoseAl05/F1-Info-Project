@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../../images/f1logo.png';
-import '../../App.css';
+import "../../App.css";
 
 
 const NavbarV2 = () => {
@@ -11,8 +11,8 @@ const NavbarV2 = () => {
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/circuits">Circuits</a></li>
-                    <li><a href="#">Drivers</a></li>
-                    <li><a href="#">Constructors</a></li>
+                    <li><a href="/drivers">Drivers</a></li>
+                    <li><a href="/constructors">Constructors</a></li>
                 </ul>
         </div>
     );

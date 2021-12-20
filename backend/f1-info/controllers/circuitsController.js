@@ -53,7 +53,7 @@ module.exports = {
                     // include: [[Sequelize.fn("COUNT", Sequelize.col("name")), "nameCount"]]
                 },
                 where:{
-                    country:req.body.Country
+                    country:req.body.Country,
                 }
             })
             .then(circuit => {

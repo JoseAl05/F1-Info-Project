@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable,usePagination,useGlobalFilter,useAsyncDebounce,useFilters } from 'react-table';
-import '../../App.css';
-
+import "../../styles/circuit.css";
+import "../../App.css"
 
 function GlobalFilter({
     preGlobalFilteredRows,
@@ -66,7 +66,7 @@ function CircuitTable({columns,data}) {
         },
         useGlobalFilter,
         useFilters,
-        usePagination, // useFilters!
+        usePagination,
     )
 
 

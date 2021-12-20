@@ -25,5 +25,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'drivers',
   });
+
+  drivers.associate = models => {
+    drivers.hasMany(models.results,{
+      foreignKey:'driverId',
+      as:'results'
+    })
+  }
   return drivers;
 };

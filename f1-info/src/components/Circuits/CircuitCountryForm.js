@@ -1,5 +1,6 @@
 import React from 'react';
-import "../../App.css";
+import "../../styles/circuit.css";
+import "../../App.css"
 
 
 
@@ -17,8 +18,8 @@ const CircuitCountryForm = ({handleChange,countries,getCiruitsByCountry,qCircuit
                 </div>
                 <button className="btn btn-danger btn-flat mt-5">Search</button>
             </form>
-            <p className="mt-3">{qCircuits} Circuits</p>
-            {circuitsInfo.map((circuits,index) => <p key={circuits.circuitId}>The Circuit <b>{circuits.name}</b>, located in <b>{circuits.location}</b>, <b>{circuits.country}</b>, which has a height of {circuits.alt} meters above sea level</p>)}
+            <p className="p-info-circuits mt-3">{qCircuits} Circuits</p>
+            {circuitsInfo.map((circuits,index) => <p key={circuits.circuitId} className="p-info-circuits">The Circuit <b>{circuits.name}</b>, located in <b>{circuits.location}</b>, <b>{circuits.country}</b>, which has a height of {circuits.alt} meters above sea level</p>)}
         </>
     )
 };
