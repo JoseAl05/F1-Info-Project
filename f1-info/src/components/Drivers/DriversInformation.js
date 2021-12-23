@@ -7,11 +7,11 @@ const DriversInformation = ({driverWins,driverPodiums,scoredRaces,driverPoles,dr
     return (
         <div className="driver-info">
             {
-                isSelecetedDriver &&
+                /* isSelecetedDriver &&*/
                 <h3 className="driver-name">{selectedDriverName.driverName}</h3>
             }
             {
-                isSelecetedDriver && driverWins == 0 && driverPodiums == 0 && driverPoles == 0 &&
+                /* isSelecetedDriver &&*/ driverWins == 0 && driverPodiums == 0 && driverPoles == 0 &&
                 <ul>
                     <li>Has no victories in F1.</li>
                     <li>Has no podiums in F1.</li>
@@ -23,7 +23,7 @@ const DriversInformation = ({driverWins,driverPodiums,scoredRaces,driverPoles,dr
                 </ul>
             }
             {
-                isSelecetedDriver && driverPodiums > 0 && driverWins > 0 && driverPoles > 0 &&
+                /* isSelecetedDriver &&*/ driverPodiums > 0 && driverWins > 0 && driverPoles > 0 &&
                 <ul>
                     <li>Has {driverWins} victories in F1.</li>
                     <li>Has {driverPodiums} podiums in F1.</li>
@@ -35,7 +35,7 @@ const DriversInformation = ({driverWins,driverPodiums,scoredRaces,driverPoles,dr
                 </ul>
             }
             {
-                isSelecetedDriver && driverWins == 0 && driverPodiums > 0 && driverPoles > 0 &&
+                /* isSelecetedDriver &&*/ driverWins == 0 && driverPodiums > 0 && driverPoles > 0 &&
                 <ul>
                     <li>Has no victories in F1.</li>
                     <li>Has {driverPodiums} podiums in F1.</li>
@@ -47,7 +47,7 @@ const DriversInformation = ({driverWins,driverPodiums,scoredRaces,driverPoles,dr
                 </ul>
             }
             {
-                isSelecetedDriver && driverWins == 0 && driverPodiums > 0 && driverPoles == 0 &&
+                /* isSelecetedDriver &&*/ driverWins == 0 && driverPodiums > 0 && driverPoles == 0 &&
                 <ul>
                     <li>Has no victories in F1.</li>
                     <li>Has {driverPodiums} podiums in F1.</li>
@@ -59,7 +59,7 @@ const DriversInformation = ({driverWins,driverPodiums,scoredRaces,driverPoles,dr
                 </ul>
             }
             {
-                isSelecetedDriver && driverWins > 0 && driverPodiums > 0 && driverPoles == 0 &&
+                /* isSelecetedDriver &&*/ driverWins > 0 && driverPodiums > 0 && driverPoles == 0 &&
                 <ul>
                     <li>Has {driverWins} victories in F1</li>
                     <li>Has {driverPodiums} podiums in F1</li>

@@ -6,6 +6,7 @@ const RaceController = require('../controllers/racesController');
 const RaceResultsController = require('../controllers/raceResultsController');
 const DriverStandingsController = require('../controllers/driversStandingsController');
 const StatusController = require('../controllers/statusController');
+const QualifyingController = require('../controllers/qualifyingController');
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -38,6 +39,9 @@ router.post('/points-by-driver/',RaceResultsController.getTotalPointsByDriver);
 router.post('/race-results/:raceId',RaceResultsController.getRaceResults);
 router.post('/laps-by-driver/',RaceResultsController.getLapsCompleted);
 router.post('/total-races-by-driver/',RaceResultsController.getTotalRaces);
+
+  // QUALIFYING //
+router.post('/qualy-results/:raceId',QualifyingController.getQualifySession);
 
   // STATUS //
 router.post('/status/',StatusController.getStatus);

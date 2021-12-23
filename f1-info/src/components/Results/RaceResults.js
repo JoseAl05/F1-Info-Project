@@ -1,10 +1,11 @@
 import React, { useState, useEffect,useLayoutEffect} from "react";
 import RaceResultsTable from "./RaceResultsTable";
+import QualifyTable from "../Qualify/QualifyTable";
 import "../../styles/race.css";
 import "../../App.css"
 import axios from "axios";
 
-const RaceResults = ({raceResults}) => {
+const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}) => {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,18 @@ const RaceResults = ({raceResults}) => {
                 fastestLapSpeed:raceResults.map(fastestLapSpeed => fastestLapSpeed.fastestLapSpeed),
                 status:raceResults.map(status => status.status.status),
             }
+    ]
+
+    const dataQualify = [
+      {
+        race:qualyResults.map(race => race.races.name),
+        driver:qualyResults.map(driver => driver.drivers.forename.concat(" " + driver.drivers.surname)),
+        number:qualyResults.map(number => number.number),
+        position:qualyResults.map(position => position.position),
+        q1:qualyResults.map(q1 => q1.q1),
+        q2:qualyResults.map(q2 => q2.q2),
+        q3:qualyResults.map(q3 => q3.q3)
+      }
     ]
 
     /* Create a new array to push all data from each element (all elements of the object are arrays) of the dataResults object.
@@ -58,12 +71,27 @@ const RaceResults = ({raceResults}) => {
         })
     })
 
+    const newDataQualify = [];
+    dataQualify.forEach(dataQualify => {
+      dataQualify.driver.forEach((driver,i) => {
+        newDataQualify.push({
+          driver:driver,
+          race:dataQualify.race[i],
+          number:dataQualify.number[i],
+          position:dataQualify.position[i],
+          q1:dataQualify.q1[i],
+          q2:dataQualify.q2[i],
+          q3:dataQualify.q3[i],
+        })
+      })
+    })
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-    const columns = React.useMemo(
+    const columnsRaceResults = React.useMemo(
         () => [
           {
             Header: "Driver",
@@ -127,6 +155,49 @@ const RaceResults = ({raceResults}) => {
         []
       );
 
+      const columnsQualify = React.useMemo(
+        () => [
+          {
+            Header: "Driver",
+            accessor: "driver"
+          },
+          {
+            Header: "Race",
+            accessor: "race",
+          },
+          {
+            Header: "Number",
+            accessor: "number",
+          },
+          {
+            Header:"Position",
+            accessor: "position",
+          },
+          {
+            Header:"Q1 Lap",
+            accessor:"q1",
+            Cell: row => {
+              return row.value === null ? "NO TIME" : row.value
+            }
+          },
+          {
+            Header:"Q2 Lap",
+            accessor:"q2",
+            Cell: row => {
+              return row.value === null ? "NO TIME" : row.value
+            }
+          },
+          {
+            Header:"Q3 Lap",
+            accessor:"q3",
+            Cell: row => {
+              return row.value === null ? "NO TIME" : row.value
+            }
+          },
+        ],
+        []
+      );
+
     return (
         <>
             <div className="container">
@@ -137,7 +208,19 @@ const RaceResults = ({raceResults}) => {
                                 <b>Results Table</b>
                             </h3>
                         </div>
-                        <RaceResultsTable columns={columns} data={newDataResults} />
+                        {raceResultsFlag && <RaceResultsTable columns={columnsRaceResults} data={newDataResults} />}
+                    </div>
+                </div>
+            </div>
+            <div className="container mt-5">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <b>Qualify Table</b>
+                            </h3>
+                        </div>
+                        {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
                     </div>
                 </div>
             </div>

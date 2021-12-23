@@ -17,6 +17,13 @@ const DriverList = () => {
   const [driverTotalRaces,setDriverTotalRaces] = useState(0);
   const [selectedDriver,setSelectedDriver] = useState(0);
   const [selectedDriverName,setSelectedDriverName] = useState("");
+  const [isWins,setIsWins] = useState(false);
+  const [isPodiums,setIsPodiums] = useState(false);
+  const [isScoredRace,setIsScoredRace] = useState(false);
+  const [isPoles,setIsPoles] = useState(false);
+  const [isTotalPoints,setIsTotalPoints] = useState(false);
+  const [isLapsCompleted,setIsLapsCompleted] = useState(false);
+  const [isTotalRaces,setIsTotalRaces] = useState(false);
 
   const getAllDrivers = async() => {
     await axios.get("http://localhost:5000/api/all-drivers")
@@ -37,6 +44,13 @@ const DriverList = () => {
     })
 
     setIsSelectedDriver(true);
+    setIsWins(false);
+    setIsPodiums(false);
+    setIsScoredRace(false);
+    setIsPoles(false);
+    setIsTotalPoints(false);
+    setIsLapsCompleted(false);
+    setIsTotalRaces(false);
   };
 
   const getAllWinsOfSelectedDriver = async(e) => {
@@ -46,6 +60,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setDriverWins(res));
+    setIsWins(true);
   }
   const getPodiumsOfSelectedDriver = async(e) => {
     e.preventDefault();
@@ -54,6 +69,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setDriverPodiums(res));
+    setIsPodiums(true);
   }
 
   const getScoredRacesOfSelectedDriver = async(e) => {
@@ -63,6 +79,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setScoredRaces(res));
+    setIsScoredRace(true);
   }
 
   const getPolesOfSelectedDriver = async(e) => {
@@ -72,6 +89,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setDriverpoles(res));
+    setIsPoles(true);
   }
 
   const getTotalPointsOfSelectedDriver = async(e) => {
@@ -81,6 +99,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setDriverPoints(res));
+    setIsTotalPoints(true);
   }
 
   const getLapsCompletedOfSelectedDriver = async(e) => {
@@ -90,6 +109,7 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setLapsCompleted(res));
+    setIsLapsCompleted(true);
   }
   const getTotalRacesOfSelectedDriver = async(e) => {
     e.preventDefault();
@@ -98,9 +118,10 @@ const DriverList = () => {
     })
     .then(res => res.data)
     .then(res => setDriverTotalRaces(res));
+    setIsTotalRaces(true);
   }
 
-  const onSubmitDriverInfo = (e) => {
+  const onSubmitDriverInfo = async (e) => {
     getAllWinsOfSelectedDriver(e);
     getPodiumsOfSelectedDriver(e);
     getScoredRacesOfSelectedDriver(e);
@@ -184,6 +205,13 @@ const DriverList = () => {
                 onSubmitDriverInfo = {onSubmitDriverInfo}
                 isLoadingDrivers={isLoadingDrivers}
                 isSelecetedDriver={isSelecetedDriver}
+                isWins = {isWins}
+                isPodiums = {isPodiums}
+                isScoredRace = {isScoredRace}
+                isPoles = {isPoles}
+                isTotalPoints = {isTotalPoints}
+                isLapsCompleted = {isLapsCompleted}
+                isTotalRaces = {isTotalRaces}
               />
             </div>
           </div>

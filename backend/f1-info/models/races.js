@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   races.associate = models => {
-    races.belongsTo(models.qualifying,{
+    races.hasMany(models.qualifying,{
       foreignKey:'raceId',
       as:'races'
     })

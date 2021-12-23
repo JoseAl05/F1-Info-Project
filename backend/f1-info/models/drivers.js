@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:'driverId',
       as:'results'
     })
+    drivers.hasMany(models.qualifying,{
+      foreignKey:'driverId',
+      as:'qualifying'
+    })
   }
   return drivers;
 };

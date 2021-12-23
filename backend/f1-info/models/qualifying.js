@@ -24,12 +24,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'qualifying',
+    freezeTableName:true,
   });
 
   qualifying.associate = models => {
-    qualifying.hasMany(models.races,{
+    qualifying.belongsTo(models.races,{
       foreignKey:'raceId',
       as:'races'
+    }),
+    qualifying.belongsTo(models.drivers,{
+      foreignKey:'driverId',
+      as:'drivers'
     })
   }
   return qualifying;

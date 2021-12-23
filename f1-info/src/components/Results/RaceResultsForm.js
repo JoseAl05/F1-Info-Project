@@ -7,7 +7,9 @@ import RaceResults from "./RaceResults";
 
 const RaceResultsForm = () => {
     const [raceResults,setRaceResults] = useState([]);
+    const [qualyResults,setQualyResults] = useState([]);
     const [raceResultsFlag,setRaceResultsFlag] = useState(false);
+    const [qualyResultsFlag,setQualyResultsFlag] = useState(false);
     const {raceId} = useParams();
 
     const getRaceResults = async() => {
@@ -20,14 +22,24 @@ const RaceResultsForm = () => {
         getRaceResults();
     }, []);
 
-    console.log(raceResults);
-
-
-
+    const getQualyResults = async() => {
+        await axios.post(`http://localhost:5000/api/qualy-results/${raceId}`)
+        .then(res => res.data)
+        .then(res => setQualyResults(res));
+        setQualyResultsFlag(true);
+    }
+    useLayoutEffect(() => {
+        getQualyResults();
+    }, []);
 
     return(
         <>
-            {raceResultsFlag && <RaceResults raceResults={raceResults}/>}
+            <RaceResults
+                raceResults={raceResults}
+                raceResultsFlag ={raceResultsFlag}
+                qualyResultsFlag={qualyResultsFlag}
+                qualyResults={qualyResults}
+            />
         </>
     )
 };
