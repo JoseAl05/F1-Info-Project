@@ -83,7 +83,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
       Array[
         {
           driverName 1: "Lewis Hamilton" ,grid 1: 1,etc.....
-          driverName 2: "Max Verstappen" ,grid 2: 2,etc.....,
+          driverName 2: "Max Verstappen" ,grid 2: 2,etc.....,@
           ......
         }
       ]
@@ -136,11 +136,6 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
       })
     })
 
-    function convertMillisecondsToDigitalClock(ms){
-      let array = ms.split(":");
-      return(parseInt(array[0]) + ":" + parseFloat(array[1]))
-  }
-
     const newDataLapTimes = [];
     dataLapTimes.forEach(dataLapTimes => {
       dataLapTimes.driver.forEach((driver,i) => {
@@ -148,7 +143,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
           driver:driver,
           lap:dataLapTimes.lap[i],
           position:dataLapTimes.position[i],
-          time:convertMillisecondsToDigitalClock(dataLapTimes.time[i]),
+          time:dataLapTimes.time,
           milliseconds:dataLapTimes.milliseconds[i],
         })
       })
