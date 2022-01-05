@@ -2,22 +2,9 @@ import React, { useState, useEffect,useLayoutEffect} from "react";
 import RaceResultsTable from "./RaceResultsTable";
 import QualifyTable from "../Qualify/QualifyTable";
 import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
+import LapTimesTable from "../LapTimes/LapTimesTable";
 import "../../styles/race.css";
 import "../../App.css"
-import axios from "axios";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Brush,
-  AreaChart,
-  Area,
-  ResponsiveContainer,
-} from 'recharts';
 
 const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag}) => {
 
@@ -83,7 +70,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
       Array[
         {
           driverName 1: "Lewis Hamilton" ,grid 1: 1,etc.....
-          driverName 2: "Max Verstappen" ,grid 2: 2,etc.....,@
+          driverName 2: "Max Verstappen" ,grid 2: 2,etc.....,
           ......
         }
       ]
@@ -143,12 +130,12 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
           driver:driver,
           lap:dataLapTimes.lap[i],
           position:dataLapTimes.position[i],
-          time:dataLapTimes.time,
+          time:dataLapTimes.time[i],
           milliseconds:dataLapTimes.milliseconds[i],
         })
       })
     })
-
+    console.log(newDataLapTimes);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -211,7 +198,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
             Header:"Points",
             accessor:"points",
             Cell: row => {
-              return row.value == 0 ? <span className="badge badge-danger" style={{background:"red"}}>{row.value}</span> : <span className="badge badge-success" style={{background:"green"}}>{row.value}</span>
+              return row.value === 0 ? <span className="badge badge-danger" style={{background:"red"}}>{row.value}</span> : <span className="badge badge-success" style={{background:"green"}}>{row.value}</span>
             }
           },
           {
@@ -291,6 +278,28 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         []
       );
 
+      const columnsLapTimes = React.useMemo(
+        () => [
+          {
+            Header: "Driver",
+            accessor: "driver"
+          },
+          {
+            Header: "Lap",
+            accessor: "lap",
+          },
+          {
+            Header: "Position",
+            accessor: "position",
+          },
+          {
+            Header:'Lap Time',
+            accessor:'time',
+          },
+        ],
+        []
+      );
+
 
 
     return (
@@ -339,7 +348,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
                                 <b>Lap Times of the race.</b>
                             </h3>
                         </div>
-
+                        {lapTimesFlag && <LapTimesTable columns={columnsLapTimes} data={newDataLapTimes}/>}
                     </div>
                 </div>
             </div>
