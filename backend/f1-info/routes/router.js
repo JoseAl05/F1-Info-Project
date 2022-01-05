@@ -7,6 +7,7 @@ const RaceResultsController = require('../controllers/raceResultsController');
 const DriverStandingsController = require('../controllers/driversStandingsController');
 const StatusController = require('../controllers/statusController');
 const QualifyingController = require('../controllers/qualifyingController');
+const LapTimesController = require('../controllers/lapTimesController');
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -29,6 +30,7 @@ router.post('/constructor-from-race/',ConstructorController.getConstructorFromAR
 
   // RACE //
 router.post('/race-by-circuit/',RaceController.getARace);
+router.post('/race-by-year/',RaceController.getARaceByYear);
 
   // RACE RESULTS //
 router.post('/wins-by-driver/',RaceResultsController.getWins);
@@ -40,8 +42,14 @@ router.post('/race-results/:raceId',RaceResultsController.getRaceResults);
 router.post('/laps-by-driver/',RaceResultsController.getLapsCompleted);
 router.post('/total-races-by-driver/',RaceResultsController.getTotalRaces);
 
+  // LAPTIMES //
+router.post('/lap-times-by-race/:raceId',LapTimesController.getLapTimesByRace);
+
   // QUALIFYING //
 router.post('/qualy-results/:raceId',QualifyingController.getQualifySession);
+
+  // DRIVER STANDINGS //
+router.post('/driver-standings/:raceId',DriverStandingsController.getDriverStandingsByRace);
 
   // STATUS //
 router.post('/status/',StatusController.getStatus);

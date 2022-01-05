@@ -7,6 +7,7 @@ import DriverList from './components/Drivers/DriverList';
 import ConstructorList from './components/Constructors/ConstructorList';
 import NavbarV2 from './components/Navbar/NavbarV2';
 import RaceResultsForm from './components/Results/RaceResultsForm';
+import RaceList from './components/Races/RaceList';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Dashboard/>} />
               <Route path="/circuits" element={<CircuitList/>} />
+              <Route path="/races" element={<RaceList/>}/>
               <Route path="/drivers" element={<DriverList/>} />
               <Route path="/constructors" element={<ConstructorList/>}/>
               <Route path="/race-results-form/:raceId" element={<RaceResultsForm/>}/>

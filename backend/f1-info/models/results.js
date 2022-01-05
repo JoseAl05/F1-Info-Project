@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:'driverId',
       as:'drivers'
     })
+    results.belongsTo(models.constructors,{
+      foreignKey:'constructorId',
+      as:'constructors',
+    })
   }
   return results;
 };

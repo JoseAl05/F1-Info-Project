@@ -7,6 +7,7 @@ const ResultsModel = require("./models").results;
 const DriverStandingsModel = require("./models").driverstandings;
 const StatusModel = require("./models").status;
 const QualifyModel = require("./models").qualify;
+const LapTimesModel = require("./models").laptimes;
 
 const sequelize = new Sequelize('f1_info','mysql','jpal0598deser',{
     host:'localhost',
@@ -32,6 +33,7 @@ const Results= new ResultsModel(sequelize,Sequelize);
 const DriverStandings = new DriverStandingsModel(sequelize,Sequelize);
 const Status = new StatusModel(sequelize,Sequelize);
 const Qualify = new QualifyModel(sequelize,Sequelize);
+const LapTimes = new LapTimesModel(sequelize,Sequelize);
 
 await sequelize.sync({
     force: true
@@ -48,5 +50,6 @@ module.exports = {
   Results,
   DriverStandings,
   Status,
-  Qualify
+  Qualify,
+  LapTimes
 }

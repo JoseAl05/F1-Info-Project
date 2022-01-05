@@ -8,6 +8,8 @@ const DriverList = () => {
   const [drivers, setDrivers] = useState([]);
   const [isLoadingDrivers,setIsLoadingDrivers] = useState(true);
   const [isSelecetedDriver,setIsSelectedDriver] = useState(false);
+  const [isDriverInfo,setIsDriverInfo] = useState(false);
+  const [isSubmitted,setIsSubmitted] = useState(false);
   const [driverWins,setDriverWins] = useState(0);
   const [driverPodiums,setDriverPodiums] = useState(0);
   const [driverPoles,setDriverpoles] = useState(0);
@@ -17,13 +19,6 @@ const DriverList = () => {
   const [driverTotalRaces,setDriverTotalRaces] = useState(0);
   const [selectedDriver,setSelectedDriver] = useState(0);
   const [selectedDriverName,setSelectedDriverName] = useState("");
-  const [isWins,setIsWins] = useState(false);
-  const [isPodiums,setIsPodiums] = useState(false);
-  const [isScoredRace,setIsScoredRace] = useState(false);
-  const [isPoles,setIsPoles] = useState(false);
-  const [isTotalPoints,setIsTotalPoints] = useState(false);
-  const [isLapsCompleted,setIsLapsCompleted] = useState(false);
-  const [isTotalRaces,setIsTotalRaces] = useState(false);
 
   const getAllDrivers = async() => {
     await axios.get("http://localhost:5000/api/all-drivers")
@@ -44,91 +39,63 @@ const DriverList = () => {
     })
 
     setIsSelectedDriver(true);
-    setIsWins(false);
-    setIsPodiums(false);
-    setIsScoredRace(false);
-    setIsPoles(false);
-    setIsTotalPoints(false);
-    setIsLapsCompleted(false);
-    setIsTotalRaces(false);
+    setIsDriverInfo(false);
+    setIsSubmitted(false);
   };
 
-  const getAllWinsOfSelectedDriver = async(e) => {
+  const getDriverInfo = async(e) => {
+
     e.preventDefault();
+    
     await axios.post("http://localhost:5000/api/wins-by-driver/",{
         Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setDriverWins(res));
-    setIsWins(true);
-  }
-  const getPodiumsOfSelectedDriver = async(e) => {
-    e.preventDefault();
+
     await axios.post("http://localhost:5000/api/podiums-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setDriverPodiums(res));
-    setIsPodiums(true);
-  }
 
-  const getScoredRacesOfSelectedDriver = async(e) => {
-    e.preventDefault();
     await axios.post("http://localhost:5000/api/scored-races-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setScoredRaces(res));
-    setIsScoredRace(true);
-  }
 
-  const getPolesOfSelectedDriver = async(e) => {
-    e.preventDefault();
     await axios.post("http://localhost:5000/api/poles-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setDriverpoles(res));
-    setIsPoles(true);
-  }
 
-  const getTotalPointsOfSelectedDriver = async(e) => {
-    e.preventDefault();
     await axios.post("http://localhost:5000/api/points-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setDriverPoints(res));
-    setIsTotalPoints(true);
-  }
 
-  const getLapsCompletedOfSelectedDriver = async(e) => {
-    e.preventDefault();
     await axios.post("http://localhost:5000/api/laps-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setLapsCompleted(res));
-    setIsLapsCompleted(true);
-  }
-  const getTotalRacesOfSelectedDriver = async(e) => {
-    e.preventDefault();
+
     await axios.post("http://localhost:5000/api/total-races-by-driver/",{
       Driver:selectedDriver.Driver
     })
     .then(res => res.data)
     .then(res => setDriverTotalRaces(res));
-    setIsTotalRaces(true);
+
+    setIsDriverInfo(true);
+    setIsSubmitted(false);
   }
 
   const onSubmitDriverInfo = async (e) => {
-    getAllWinsOfSelectedDriver(e);
-    getPodiumsOfSelectedDriver(e);
-    getScoredRacesOfSelectedDriver(e);
-    getPolesOfSelectedDriver(e);
-    getTotalPointsOfSelectedDriver(e);
-    getLapsCompletedOfSelectedDriver(e);
-    getTotalRacesOfSelectedDriver(e);
+    setIsSubmitted(true);
+    getDriverInfo(e);
   }
 
   useEffect(() => {
@@ -205,13 +172,8 @@ const DriverList = () => {
                 onSubmitDriverInfo = {onSubmitDriverInfo}
                 isLoadingDrivers={isLoadingDrivers}
                 isSelecetedDriver={isSelecetedDriver}
-                isWins = {isWins}
-                isPodiums = {isPodiums}
-                isScoredRace = {isScoredRace}
-                isPoles = {isPoles}
-                isTotalPoints = {isTotalPoints}
-                isLapsCompleted = {isLapsCompleted}
-                isTotalRaces = {isTotalRaces}
+                isDriverInfo = {isDriverInfo}
+                isSubmitted = {isSubmitted}
               />
             </div>
           </div>

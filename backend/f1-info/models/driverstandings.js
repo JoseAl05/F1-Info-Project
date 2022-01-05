@@ -24,6 +24,18 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'driverStandings',
+    freezeTableName:true,
   });
+
+  driverStandings.associate = models => {
+    driverStandings.belongsTo(models.races,{
+      foreignKey:'raceId',
+      as:'races'
+    }),
+    driverStandings.belongsTo(models.drivers,{
+      foreignKey:'driverId',
+      as:'drivers'
+    })
+  }
   return driverStandings;
 };

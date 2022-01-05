@@ -103,7 +103,7 @@ const CircuitList = () => {
   );
 
   return (
-    <div className="container" id="container-circuits">
+    <div className="container">
       <div className="card">
         <div className="row">
           <div className="col-lg-6">

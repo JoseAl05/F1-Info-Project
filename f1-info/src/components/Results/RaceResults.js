@@ -1,11 +1,25 @@
 import React, { useState, useEffect,useLayoutEffect} from "react";
 import RaceResultsTable from "./RaceResultsTable";
 import QualifyTable from "../Qualify/QualifyTable";
+import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
 import "../../styles/race.css";
 import "../../App.css"
 import axios from "axios";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Brush,
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+} from 'recharts';
 
-const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}) => {
+const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag}) => {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +28,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
     const dataResults = [
             {
                 driverName:raceResults.map(driver => driver.drivers.forename.concat(" " + driver.drivers.surname)),//driversFromRace.map(driver => driver.forename.concat(" " + driver.surname)),
+                constructor:raceResults.map(constructor => constructor.constructors.name),
                 number:raceResults.map(number => number.number),
                 grid:raceResults.map(grid => grid.grid),
                 position:raceResults.map(position => position.position),
@@ -42,12 +57,33 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
       }
     ]
 
+    const dataDriverStandings = [
+      {
+        race:driverStandings.map(race => race.races.name),
+        driver:driverStandings.map(driver => driver.drivers.forename.concat(" " + driver.drivers.surname)),
+        points:driverStandings.map(points => points.points),
+        position:driverStandings.map(position => position.position),
+        positionText:driverStandings.map(positionText => positionText.positionText),
+        wins:driverStandings.map(wins => wins.wins)
+      }
+    ]
+
+    const dataLapTimes = [
+      {
+        driver:lapTimes.map(driver => driver.drivers.forename.concat(" " + driver.drivers.surname)),
+        lap:lapTimes.map(lap => lap.lap),
+        position:lapTimes.map(position => position.position),
+        time:lapTimes.map(time => time.time),
+        milliseconds:lapTimes.map(milliseconds => milliseconds.milliseconds),
+      }
+    ]
+
     /* Create a new array to push all data from each element (all elements of the object are arrays) of the dataResults object.
       This is for react tables, because the data needs this format:
       Array[
         {
-          driverName 1:,grid 1:,etc.....
-          driverName 2:,grid 2:,etc.....,
+          driverName 1: "Lewis Hamilton" ,grid 1: 1,etc.....
+          driverName 2: "Max Verstappen" ,grid 2: 2,etc.....,
           ......
         }
       ]
@@ -57,6 +93,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
         dataResults.driverName.forEach((driver,i) => {
             newDataResults.push({
                 driverName:driver,
+                constructor:dataResults.constructor[i],
                 number:dataResults.number[i],
                 position:dataResults.position[i],
                 positionOrder:dataResults.positionOrder[i],
@@ -86,6 +123,37 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
       })
     })
 
+    const newDataDriverStandings = [];
+    dataDriverStandings.forEach(dataDriverStandings => {
+      dataDriverStandings.driver.forEach((driver,i) => {
+        newDataDriverStandings.push({
+          driver:driver,
+          race:dataDriverStandings.race[i],
+          points:dataDriverStandings.points[i],
+          position:dataDriverStandings.position[i],
+          wins:dataDriverStandings.wins[i]
+        })
+      })
+    })
+
+    function convertMillisecondsToDigitalClock(ms){
+      let array = ms.split(":");
+      return(parseInt(array[0]) + ":" + parseFloat(array[1]))
+  }
+
+    const newDataLapTimes = [];
+    dataLapTimes.forEach(dataLapTimes => {
+      dataLapTimes.driver.forEach((driver,i) => {
+        newDataLapTimes.push({
+          driver:driver,
+          lap:dataLapTimes.lap[i],
+          position:dataLapTimes.position[i],
+          time:convertMillisecondsToDigitalClock(dataLapTimes.time[i]),
+          milliseconds:dataLapTimes.milliseconds[i],
+        })
+      })
+    })
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,6 +164,10 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
           {
             Header: "Driver",
             accessor: "driverName"
+          },
+          {
+            Header:"Team",
+            accessor:"constructor"
           },
           {
             Header: "Number of Driver",
@@ -198,6 +270,34 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
         []
       );
 
+      const columnsDriverStandings = React.useMemo(
+        () => [
+          {
+            Header: "Driver",
+            accessor: "driver"
+          },
+          {
+            Header: "Race",
+            accessor: "race",
+          },
+          {
+            Header: "Position",
+            accessor: "position",
+          },
+          {
+            Header:'Points in this Season',
+            accessor:'points',
+          },
+          {
+            Header:"Wins in this Season",
+            accessor: "wins",
+          },
+        ],
+        []
+      );
+
+
+
     return (
         <>
             <div className="container">
@@ -221,6 +321,30 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults}
                             </h3>
                         </div>
                         {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
+                    </div>
+                </div>
+            </div>
+            <div className="container mt-5">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <b>Driver Standings Table at this point of the season.</b>
+                            </h3>
+                        </div>
+                        {driverStandingsFlag && <DriverStandingTable columns={columnsDriverStandings} data={newDataDriverStandings}/>}
+                    </div>
+                </div>
+            </div>
+            <div className="container mt-5">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <b>Lap Times of the race.</b>
+                            </h3>
+                        </div>
+
                     </div>
                 </div>
             </div>

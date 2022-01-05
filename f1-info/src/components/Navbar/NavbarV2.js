@@ -11,6 +11,7 @@ const NavbarV2 = () => {
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/circuits">Circuits</a></li>
+                    <li><a href='/races'>Seasons</a></li>
                     <li><a href="/drivers">Drivers</a></li>
                     <li><a href="/constructors">Constructors</a></li>
                 </ul>

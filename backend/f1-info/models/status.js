@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const cliente = require('../../../../Angular/server/src/models/cliente');
 module.exports = (sequelize, DataTypes) => {
   class status extends Model {
 

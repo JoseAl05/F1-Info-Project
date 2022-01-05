@@ -1,6 +1,7 @@
 const RaceResults = require('../models').results;
 const Status = require('../models').status;
 const Driver = require('../models').drivers
+const Constructor = require('../models').constructors;
 const Sequelize = require('sequelize');
 
 module.exports = {
@@ -27,6 +28,13 @@ module.exports = {
                     {
                         model: Driver,
                         as:'drivers',
+                        attributes:{
+                            exclude:['createdAt','updatedAt'],
+                        },
+                    },
+                    {
+                        model: Constructor,
+                        as:'constructors',
                         attributes:{
                             exclude:['createdAt','updatedAt'],
                         },

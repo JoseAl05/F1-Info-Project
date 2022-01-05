@@ -21,5 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'constructors',
   });
+
+  constructors.associate = models => {
+    constructors.hasMany(models.results,{
+      foreignKey:'constructorId',
+      as:'results'
+    })
+  }
   return constructors;
 };

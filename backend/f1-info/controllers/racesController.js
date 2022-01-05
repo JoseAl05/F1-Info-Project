@@ -19,5 +19,23 @@ module.exports = {
             .catch(error => {
                 res.status(500).send({message:error.message});
             })
+    },
+
+    getARaceByYear(req,res){
+        return Race
+            .findAll({
+                attributes:{
+                    exclude:['createdAt','updatedAt'],
+                },
+                where:{
+                    year:req.body.Year,
+                }
+            })
+            .then(race => {
+                res.status(200).json(race);
+            })
+            .catch(error => {
+                res.status(500).send({message:error.message});
+            })
     }
 }

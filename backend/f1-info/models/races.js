@@ -29,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
   races.associate = models => {
     races.hasMany(models.qualifying,{
       foreignKey:'raceId',
-      as:'races'
+      as:'qualifying'
+    })
+    races.hasMany(models.driverStandings,{
+      foreignKey:'raceId',
+      as:'driverstandings',
     })
   }
   return races;
