@@ -4,10 +4,63 @@ import QualifyTable from "../Qualify/QualifyTable";
 import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
 import LapTimesTable from "../LapTimes/LapTimesTable";
 import "../../styles/race.css";
-import "../../App.css"
+import "../../App.css";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  LineElement,
+  BarElement,
+  PointElement,
+  BarController,
+  BubbleController,
+  DoughnutController,
+  LineController,
+  PieController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  RadialLinearScale,
+  TimeScale,
+  TimeSeriesScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import 'chartjs-adapter-moment';
 
 const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag}) => {
 
+  ChartJS.register(
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip
+  );
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -300,7 +353,64 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         []
       );
 
+    const labels = newDataLapTimes.map(driver => driver.driver);
 
+    const data = {
+      labels,
+      datasets : [
+        {
+          label:'Lap Time',
+          data:newDataLapTimes.map(time => time.time),
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          yAxisID:'y',
+        },
+        {
+          label:'Lap',
+          data:newDataLapTimes.map(lap => lap.lap),
+          borderColor: 'rgb(120, 99, 132)',
+          backgroundColor: 'rgba(120, 99, 132, 0.5)',
+          yAxisID:'y1'
+        }
+      ]
+    };
+
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Lap Times',
+        },
+      },
+      scales: {
+          y: {
+              display: true,
+              type: 'time',
+              time: {
+                  parser: 'HH:mm:ss',
+                  unit: "seconds",
+                  tooltipFormat: 'HH:mm:ss',
+                  displayFormats: {
+                      'seconds': "HH:mm:ss"
+                  },
+              },
+              min: '1:0.0',
+              max: '3:0.0',
+          },
+          y1:{
+            type:'linear',
+            display:true,
+            position:'right',
+            grid: {
+              drawOnChartArea: false,
+            },
+          }
+        }
+      };
 
     return (
         <>
@@ -349,6 +459,18 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
                             </h3>
                         </div>
                         {lapTimesFlag && <LapTimesTable columns={columnsLapTimes} data={newDataLapTimes}/>}
+                    </div>
+                </div>
+            </div>
+            <div className="container mt-5">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <b>Lap Times of the race.</b>
+                            </h3>
+                        </div>
+                      <Line options={options} data={data} />
                     </div>
                 </div>
             </div>
