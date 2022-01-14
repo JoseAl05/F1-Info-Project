@@ -16,7 +16,7 @@ const CircuitCountryForm = ({handleChange,countries,getCiruitsByCountry,qCircuit
                     </select>
                     <span className="custom-arrow"></span>
                 </div>
-                <button className="btn btn-danger btn-flat mt-5">Search</button>
+                <button className="btn btn-danger btn-flat mt-5">Search Circuits</button>
             </form>
             <p className="p-info-circuits mt-3">{qCircuits} Circuits</p>
             {circuitsInfo.map((circuits,index) => <p key={circuits.circuitId} className="p-info-circuits">The Circuit <b>{circuits.name}</b>, located in <b>{circuits.location}</b>, <b>{circuits.country}</b>, which has a height of {circuits.alt} meters above sea level</p>)}

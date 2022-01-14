@@ -3,6 +3,7 @@ import RaceResultsTable from "./RaceResultsTable";
 import QualifyTable from "../Qualify/QualifyTable";
 import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
 import LapTimesTable from "../LapTimes/LapTimesTable";
+import LapTimesForm from "../LapTimes/LapTimesForm";
 import "../../styles/race.css";
 import "../../App.css";
 import {
@@ -31,10 +32,10 @@ import {
   Title,
   Tooltip
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line,Bar } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 
-const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag}) => {
+const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag,handleDriversChange,onSubmitDrivers}) => {
 
   ChartJS.register(
     ArcElement,
@@ -61,6 +62,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
     Title,
     Tooltip
   );
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -110,7 +112,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
 
     const dataLapTimes = [
       {
-        driver:lapTimes.map(driver => driver.drivers.forename.concat(" " + driver.drivers.surname)),
+        driver:lapTimes.map(driver => driver.drivers.code/*driver.drivers.forename.concat(" " + driver.drivers.surname)*/),
         lap:lapTimes.map(lap => lap.lap),
         position:lapTimes.map(position => position.position),
         time:lapTimes.map(time => time.time),
@@ -353,27 +355,39 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         []
       );
 
-    const labels = newDataLapTimes.map(driver => driver.driver);
+    const labels = newDataLapTimes.map(driver => {
+      return driver.driver + ';' + driver.lap;
+    });
 
+    console.log(labels);
+
+    console.log(newDataLapTimes.map(time => time.time));
     const data = {
       labels,
       datasets : [
         {
+          key:'laptime',
           label:'Lap Time',
           data:newDataLapTimes.map(time => time.time),
           borderColor: 'rgb(255, 99, 132)',
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           yAxisID:'y',
+          xAxisID:'x1',
+          stack:'Stack 0'
         },
         {
+          key:'lap',
           label:'Lap',
           data:newDataLapTimes.map(lap => lap.lap),
           borderColor: 'rgb(120, 99, 132)',
           backgroundColor: 'rgba(120, 99, 132, 0.5)',
-          yAxisID:'y1'
+          yAxisID:'y1',
+          xAxisID:'x2',
+          stack:'Stack 0'
         }
       ]
     };
+    console.log(data);
 
     const options = {
       responsive: true,
@@ -387,28 +401,66 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         },
       },
       scales: {
-          y: {
-              display: true,
-              type: 'time',
-              time: {
-                  parser: 'HH:mm:ss',
-                  unit: "seconds",
-                  tooltipFormat: 'HH:mm:ss',
-                  displayFormats: {
-                      'seconds': "HH:mm:ss"
-                  },
+          x1:{
+            xAxisID:'x1',
+            position: 'top',
+            ticks: {
+              font:{
+                size:8,
               },
-              min: '1:0.0',
-              max: '3:0.0',
+              maxTicksLimit: 350,
+              callback: function(value, index, values) {
+                return this.getLabelForValue(value).split(';')[0];
+              }
+            }
+          },
+          x2:{
+            xAxisID:'x2',
+            position: 'bottom',
+            ticks: {
+              font:{
+                size:10,
+              },
+              maxTicksLimit: 350,
+              callback: function(value, index, values) {
+                return this.getLabelForValue(value).split(';')[1];
+              }
+            }
+          },
+          y: {
+            display: true,
+            stacked:true,
+            type: 'time',
+            time: {
+                parser: 'HH:mm:ss',
+                unit: "seconds",
+                tooltipFormat: 'HH:mm:ss',
+                displayFormats: {
+                    'seconds': "HH:mm:ss"
+                },
+            },
+            min: '1:0.0',
+            max: '2:7.0',
+            xAxisID:'x1',
+            ticks:{
+              autoSkip: true,
+              maxTicksLimit: 15
+            }
           },
           y1:{
             type:'linear',
+            stacked:true,
             display:true,
             position:'right',
+            ticks:{
+              autoSkip: true,
+              maxTicksLimit: 15
+            },
             grid: {
               drawOnChartArea: false,
             },
-          }
+            xAxisID:'x2',
+          },
         }
       };
 
@@ -416,64 +468,49 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         <>
             <div className="container">
                 <div className="card">
+                  <div className="card-body">
+                      <div className="card-header">
+                        <h3 className="card-title">
+                            <b>Results Table</b>
+                        </h3>
+                      </div>
+                      {raceResultsFlag && <RaceResultsTable columns={columnsRaceResults} data={newDataResults} />}
+                  </div>
                     <div className="card-body">
-                        <div className="card-header">
-                            <h3 className="card-title">
-                                <b>Results Table</b>
-                            </h3>
-                        </div>
-                        {raceResultsFlag && <RaceResultsTable columns={columnsRaceResults} data={newDataResults} />}
+                      <div className="card-header">
+                        <h3 className="card-title">
+                            <b>Qualify Table</b>
+                        </h3>
+                      </div>
+                      {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
                     </div>
-                </div>
-            </div>
-            <div className="container mt-5">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-header">
-                            <h3 className="card-title">
-                                <b>Qualify Table</b>
-                            </h3>
-                        </div>
-                        {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
+                  <div className="card-body">
+                      <div className="card-header">
+                        <h3 className="card-title">
+                            <b>Driver Standings Table at this point of the season.</b>
+                        </h3>
                     </div>
+                    {driverStandingsFlag && <DriverStandingTable columns={columnsDriverStandings} data={newDataDriverStandings}/>}
                 </div>
-            </div>
-            <div className="container mt-5">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-header">
-                            <h3 className="card-title">
-                                <b>Driver Standings Table at this point of the season.</b>
-                            </h3>
-                        </div>
-                        {driverStandingsFlag && <DriverStandingTable columns={columnsDriverStandings} data={newDataDriverStandings}/>}
-                    </div>
+                <div className="card-body">
+                  <div className="card-header">
+                    <h3 className="card-title">
+                      <b>Lap Times of the race.</b>
+                    </h3>
+                  </div>
+                  {lapTimesFlag && <LapTimesTable columns={columnsLapTimes} data={newDataLapTimes}/>}
                 </div>
-            </div>
-            <div className="container mt-5">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-header">
-                            <h3 className="card-title">
-                                <b>Lap Times of the race.</b>
-                            </h3>
-                        </div>
-                        {lapTimesFlag && <LapTimesTable columns={columnsLapTimes} data={newDataLapTimes}/>}
-                    </div>
+                <div className="card-body">
+                  <div className="card-header">
+                    <h3 className="card-title">
+                      <b>Lap Times of the race.</b>
+                    </h3>
+                  </div>
+                  <LapTimesForm raceResults={raceResults} handleDriversChange = {handleDriversChange} onSubmitDrivers={onSubmitDrivers}/>
+                    {lapTimesFlag && <Bar options={options} data={data} />}
                 </div>
-            </div>
-            <div className="container mt-5">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="card-header">
-                            <h3 className="card-title">
-                                <b>Lap Times of the race.</b>
-                            </h3>
-                        </div>
-                      <Line options={options} data={data} />
-                    </div>
-                </div>
-            </div>
+              </div>
+          </div>
         </>
     )
 };

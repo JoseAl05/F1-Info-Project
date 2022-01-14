@@ -15,6 +15,7 @@ module.exports = {
                 ]],
                 where:{
                     raceId:req.params.raceId,
+                    driverId:req.body.Drivers,
                 },
                 include:[
                     {

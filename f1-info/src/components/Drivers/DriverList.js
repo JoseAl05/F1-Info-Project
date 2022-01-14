@@ -46,7 +46,6 @@ const DriverList = () => {
   const getDriverInfo = async(e) => {
 
     e.preventDefault();
-    
     await axios.post("http://localhost:5000/api/wins-by-driver/",{
         Driver:selectedDriver.Driver
     })

@@ -64,14 +64,14 @@ const CircuitRacesForm = ({circuits,handleChangeCircuit,getRaceByCircuit,qRaces,
         <>
             <form onSubmit={getRaceByCircuit}>
                 <div className="select-countries">
-                    <select className="custom-select" name="country" id="country" onChange={handleChangeCircuit}>
+                    <select className="custom-select" name="circuit" id="circuit" onChange={handleChangeCircuit}>
                         {circuits.map(circuit => (
                         <option key={circuit.circuitId} value={circuit.circuitId}>{circuit.name}</option>
                         ))}
                     </select>
                     <span className="custom-arrow"></span>
                 </div>
-                <button className="btn btn-danger btn-flat mt-5">Search</button>
+                <button className="btn btn-danger btn-flat mt-5">Search Races</button>
             </form>
             {text}
             {isSubmitted && <RaceTable data={selectedRace} columns={columns}/>}

@@ -15,6 +15,8 @@ const RaceResultsForm = () => {
     const [driverStandingsFlag,setDriverStandingsFlag] = useState(false);
     const [lapTimesFlag,setLapTimesFlag] = useState(false);
     const {raceId} = useParams();
+    const [selectedDrivers,setSelectedDrivers] = useState([]);
+    const [isSubmitted,setIsSubmitted] = useState(false);
 
     const getRaceResults = async() => {
         await axios.post(`http://localhost:5000/api/race-results/${raceId}`)
@@ -39,16 +41,35 @@ const RaceResultsForm = () => {
         .then(res => setDriverStandings(res))
         setDriverStandingsFlag(true);
     }
-    const getLapTimes = async() => {
-        await axios.post(`http://localhost:5000/api/lap-times-by-race/${raceId}`)
+
+    const handleDriversChange = (selectedOptions) => {
+        const drivers = [];
+        for(let i = 0 ; i<selectedOptions.length;i++){
+            drivers.push(selectedOptions[i].value);
+        }
+        setSelectedDrivers(drivers);
+    }
+
+    const onSubmitDrivers = async (e) => {
+        setIsSubmitted(true);
+        getLapTimes(e);
+    }
+
+    const getLapTimes = async(e) => {
+        e.preventDefault();
+
+        await axios.post(`http://localhost:5000/api/lap-times-by-race/${raceId}/`,{
+            Drivers:selectedDrivers
+        })
         .then(res => res.data)
         .then(res => setLapTimes(res));
+
         setLapTimesFlag(true);
     }
+
     useLayoutEffect(() => {
         getQualyResults();
         getDriverStandings();
-        getLapTimes();
     }, []);
 
     return(
@@ -62,6 +83,8 @@ const RaceResultsForm = () => {
                 driverStandings = {driverStandings}
                 lapTimes = {lapTimes}
                 lapTimesFlag = {lapTimesFlag}
+                handleDriversChange = {handleDriversChange}
+                onSubmitDrivers = {onSubmitDrivers}
             />
         </>
     )

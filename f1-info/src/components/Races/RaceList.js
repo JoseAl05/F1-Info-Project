@@ -14,7 +14,7 @@ const RaceList = () => {
     const handleChangeYear = (e) => {
         setSelectedYear({
             Year:e._d.getFullYear(),
-        })  
+        })
     }
 
     const getRaceByYear = async(e) => {

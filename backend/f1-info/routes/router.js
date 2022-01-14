@@ -8,12 +8,16 @@ const DriverStandingsController = require('../controllers/driversStandingsContro
 const StatusController = require('../controllers/statusController');
 const QualifyingController = require('../controllers/qualifyingController');
 const LapTimesController = require('../controllers/lapTimesController');
+const UsersController = require('../controllers/usersController.js');
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+
+  // USERS //
+router.post('/signup/',UsersController.registerAUser);
 
   // CIRCUITS //
 router.get('/all-circuits/',CircuitsController.getAllCircuits);
@@ -43,7 +47,7 @@ router.post('/laps-by-driver/',RaceResultsController.getLapsCompleted);
 router.post('/total-races-by-driver/',RaceResultsController.getTotalRaces);
 
   // LAPTIMES //
-router.post('/lap-times-by-race/:raceId',LapTimesController.getLapTimesByRace);
+router.post('/lap-times-by-race/:raceId/',LapTimesController.getLapTimesByRace);
 
   // QUALIFYING //
 router.post('/qualy-results/:raceId',QualifyingController.getQualifySession);

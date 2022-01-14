@@ -1,0 +1,42 @@
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+}
+/* .logo-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 49%;
+    left:65%;
+} */
+
+.eslogan-content{
+    position: absolute;
+    top:50%;
+    left: 60%;
+    text-align: center;
+    color:#ffffff;
+}
+
+.eslogan-content p{
+    margin: 20px auto;
+    font-weight: bold;
+    line-height: 25px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.label-login {
+    color:white;
+}
+
+.title-login {
+    color:white;
+}
+.logo-login{
+    width: 300px;
+}
