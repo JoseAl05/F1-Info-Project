@@ -5,6 +5,8 @@ import "../../App.css"
 import axios from "axios";
 import CircuitCountryForm from "./CircuitCountryForm";
 import CircuitRacesForm from "./CircuitRacesForm";
+import AuthService from "../../services/auth.service";
+import AuthHeader from "../../services/auth-header";
 
 const initialCountry = "";
 
@@ -17,18 +19,26 @@ const CircuitList = () => {
   const [selectedRace,setSelectedRace] = useState([0]);
   const [isSubmitted,setIsSubmitted] = useState(false);
 
+
+
+
+  const getCircuits = () => {
+    fetch("http://localhost:5000/api/all-circuits",{headers:AuthHeader()})
+      .then((res) => res.json())
+      .then((res) => setCircuits(res));
+  };
+
   useEffect(() => {
-    const getCircuits = () => {
-      fetch("http://localhost:5000/api/all-circuits")
-        .then((res) => res.json())
-        .then((res) => setCircuits(res));
-    };
     getCircuits();
   }, []);
 
+
+  console.log(circuits);
+
+
   useEffect(() => {
     const getCountries = () => {
-      fetch("http://localhost:5000/api/all-countrys")
+      fetch("http://localhost:5000/api/all-countrys",{headers:AuthHeader()})
         .then((res) => res.json())
         .then((res) => setCountries(res));
     };
@@ -53,7 +63,10 @@ const CircuitList = () => {
   const getCiruitsByCountry = async(e) => {
     e.preventDefault();
     await axios.post("http://localhost:5000/api/circuit-by-country",{
-      Country:selectedCountry.Country
+      Country:selectedCountry.Country,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setCircuitsInfo(res));
@@ -62,7 +75,10 @@ const CircuitList = () => {
   const getRaceByCircuit= async(e) => {
     e.preventDefault();
     await axios.post("http://localhost:5000/api/race-by-circuit",{
-      Circuit:selectedRace.Circuit
+      Circuit:selectedRace.Circuit,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setSelectedRace(res));
@@ -92,7 +108,7 @@ const CircuitList = () => {
         accessor: "url",
         Cell: ({ row }) => (
             <div>
-                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank">
+                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank" rel="noreferrer">
                     More Info
                 </a>
             </div>
@@ -101,60 +117,71 @@ const CircuitList = () => {
     ],
     []
   );
+  console.log(AuthService.getCurrentUser());
+
+  if(!AuthService.getCurrentUser()){
+    return(
+      <>
+        <h1>No Permission!</h1>
+      </>
+    )
+  }
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className="row">
-          <div className="col-lg-6">
-            <div className="card-body">
-                  <div className="card-header">
-                    <h3 className="card-title">
-                      <b>Circuits of F1</b>
-                    </h3>
-                  </div>
-                  <div className="scrollable">
-                    <CircuitTable columns={columns} data={circuits} />
-                  </div>
-            </div>
-          </div>
-          <div className="col-lg-6">
-            <div className="card-body">
-              <div className="card-header">
-                <h3 className="card-title">
-                  <b>Countries</b>
-                </h3>
+    <React.StrictMode>
+      <div className="container">
+        <div className="card">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="card-body">
+                    <div className="card-header">
+                      <h3 className="card-title">
+                        <b>Circuits of F1</b>
+                      </h3>
+                    </div>
+                    <div className="scrollable">
+                      <CircuitTable columns={columns} data={circuits} />
+                    </div>
               </div>
-              <CircuitCountryForm
-                handleChange={handleChange}
-                countries={countries}
-                getCiruitsByCountry={getCiruitsByCountry}
-                qCircuits={qCircuits}
-                circuitsInfo={circuitsInfo}
-                circuits={circuits}
-              />
             </div>
-          </div>
-          <div className="col-lg-12">
-            <div className="card-body">
-              <div className="card-header">
-                <h3 className="card-title">
-                  <b>Races Info</b>
-                </h3>
+            <div className="col-lg-6">
+              <div className="card-body">
+                <div className="card-header">
+                  <h3 className="card-title">
+                    <b>Countries</b>
+                  </h3>
+                </div>
+                <CircuitCountryForm
+                  handleChange={handleChange}
+                  countries={countries}
+                  getCiruitsByCountry={getCiruitsByCountry}
+                  qCircuits={qCircuits}
+                  circuitsInfo={circuitsInfo}
+                  circuits={circuits}
+                />
               </div>
-              <CircuitRacesForm
-                circuits={circuits}
-                handleChangeCircuit={handleChangeCircuit}
-                getRaceByCircuit={getRaceByCircuit}
-                qRaces={qRaces}
-                selectedRace={selectedRace}
-                isSubmitted={isSubmitted}
-              />
+            </div>
+            <div className="col-lg-12">
+              <div className="card-body">
+                <div className="card-header">
+                  <h3 className="card-title">
+                    <b>Races Info</b>
+                  </h3>
+                </div>
+                <CircuitRacesForm
+                  circuits={circuits}
+                  handleChangeCircuit={handleChangeCircuit}
+                  getRaceByCircuit={getRaceByCircuit}
+                  qRaces={qRaces}
+                  selectedRace={selectedRace}
+                  isSubmitted={isSubmitted}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </React.StrictMode>
   );
 };
 

@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   class laptimes extends Model {
     
     static associate(models) {
-      
     }
   };
   laptimes.init({

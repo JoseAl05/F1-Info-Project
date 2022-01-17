@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
 import './App.css';
 import Dashboard from './components/Dashboard';
-import {BrowserRouter as Router,Route,Routes,useLocation} from 'react-router-dom';
+import {BrowserRouter as Router,Route,Routes} from 'react-router-dom';
 import CircuitList from './components/Circuits/CircuitList';
 import DriverList from './components/Drivers/DriverList';
 import ConstructorList from './components/Constructors/ConstructorList';

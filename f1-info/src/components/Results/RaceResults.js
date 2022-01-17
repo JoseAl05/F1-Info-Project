@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useLayoutEffect} from "react";
+import React from "react";
 import RaceResultsTable from "./RaceResultsTable";
 import QualifyTable from "../Qualify/QualifyTable";
 import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
@@ -32,7 +32,7 @@ import {
   Title,
   Tooltip
 } from 'chart.js';
-import { Line,Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 
 const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag,handleDriversChange,onSubmitDrivers}) => {
@@ -184,13 +184,12 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         newDataLapTimes.push({
           driver:driver,
           lap:dataLapTimes.lap[i],
-          position:dataLapTimes.position[i],
+          // position:dataLapTimes.position[i],
           time:dataLapTimes.time[i],
-          milliseconds:dataLapTimes.milliseconds[i],
+          // milliseconds:dataLapTimes.milliseconds[i],
         })
       })
     })
-    console.log(newDataLapTimes);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -355,39 +354,35 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         []
       );
 
-    const labels = newDataLapTimes.map(driver => {
-      return driver.driver + ';' + driver.lap;
+    const labels = lapTimes.map(driver => {
+      console.log(driver);
+      return driver.drivers.code + '; LAP ' + driver.lap;
     });
-
-    console.log(labels);
-
-    console.log(newDataLapTimes.map(time => time.time));
     const data = {
       labels,
       datasets : [
         {
           key:'laptime',
-          label:'Lap Time',
-          data:newDataLapTimes.map(time => time.time),
+          label:'lap',
+          data:lapTimes.map(time => time.time),
           borderColor: 'rgb(255, 99, 132)',
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           yAxisID:'y',
           xAxisID:'x1',
-          stack:'Stack 0'
+          // stack:'Stack 0'
         },
-        {
-          key:'lap',
-          label:'Lap',
-          data:newDataLapTimes.map(lap => lap.lap),
-          borderColor: 'rgb(120, 99, 132)',
-          backgroundColor: 'rgba(120, 99, 132, 0.5)',
-          yAxisID:'y1',
-          xAxisID:'x2',
-          stack:'Stack 0'
-        }
+        // {
+        //   key:'lap',
+        //   label:'Lap',
+        //   data:newDataLapTimes.map(lap => lap.lap),
+        //   borderColor: 'rgb(120, 99, 132)',
+        //   backgroundColor: 'rgba(120, 99, 132, 0.5)',
+        //   yAxisID:'y1',
+        //   xAxisID:'x2',
+        //   stack:'Stack 1'
+        // }
       ]
     };
-    console.log(data);
 
     const options = {
       responsive: true,
@@ -401,32 +396,42 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         },
       },
       scales: {
-          x1:{
-            xAxisID:'x1',
-            position: 'top',
-            ticks: {
-              font:{
-                size:8,
-              },
-              maxTicksLimit: 350,
-              callback: function(value, index, values) {
-                return this.getLabelForValue(value).split(';')[0];
-              }
-            }
-          },
-          x2:{
-            xAxisID:'x2',
-            position: 'bottom',
-            ticks: {
-              font:{
-                size:10,
-              },
-              maxTicksLimit: 350,
-              callback: function(value, index, values) {
-                return this.getLabelForValue(value).split(';')[1];
-              }
-            }
-          },
+        x1:{
+          ticks:{
+            font:{
+              size:8,
+            },
+            // callback: function(value, index, values) {
+            //   return this.getLabelForValue(value).split(';');
+            // }
+          }
+        },
+          // x1:{
+          //   xAxisID:'x1',
+          //   position: 'top',
+          //   ticks: {
+          //     font:{
+          //       size:8,
+          //     },
+          //     maxTicksLimit: 350,
+          //     callback: function(value, index, values) {
+          //       return this.getLabelForValue(value).split(';')[0];
+          //     }
+          //   }
+          // },
+          // x2:{
+          //   xAxisID:'x2',
+          //   position: 'bottom',
+          //   ticks: {
+          //     font:{
+          //       size:10,
+          //     },
+          //     maxTicksLimit: 350,
+          //     callback: function(value, index, values) {
+          //       return this.getLabelForValue(value).split(';')[1];
+          //     }
+          //   }
+          // },
           y: {
             display: true,
             stacked:true,
@@ -447,20 +452,20 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
               maxTicksLimit: 15
             }
           },
-          y1:{
-            type:'linear',
-            stacked:true,
-            display:true,
-            position:'right',
-            ticks:{
-              autoSkip: true,
-              maxTicksLimit: 15
-            },
-            grid: {
-              drawOnChartArea: false,
-            },
-            xAxisID:'x2',
-          },
+          // y1:{
+          //   type:'linear',
+          //   stacked:true,
+          //   display:true,
+          //   position:'right',
+          //   ticks:{
+          //     autoSkip: true,
+          //     maxTicksLimit: 15
+          //   },
+          //   grid: {
+          //     drawOnChartArea: false,
+          //   },
+          //   xAxisID:'x2',
+          // },
         }
       };
 
@@ -507,7 +512,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
                     </h3>
                   </div>
                   <LapTimesForm raceResults={raceResults} handleDriversChange = {handleDriversChange} onSubmitDrivers={onSubmitDrivers}/>
-                    {lapTimesFlag && <Bar options={options} data={data} />}
+                    {lapTimesFlag && <Bar options={options} data={data} redraw />}
                 </div>
               </div>
           </div>

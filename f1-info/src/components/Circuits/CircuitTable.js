@@ -8,7 +8,7 @@ function GlobalFilter({
     globalFilter,
     setGlobalFilter,
   }) {
-    const count = preGlobalFilteredRows.length
+    // const count = preGlobalFilteredRows.length
     const [value, setValue] = React.useState(globalFilter)
     const onChange = useAsyncDebounce(value => {
       setGlobalFilter(value || undefined)
@@ -41,7 +41,7 @@ function CircuitTable({columns,data}) {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        // rows,
         prepareRow,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
@@ -77,7 +77,7 @@ function CircuitTable({columns,data}) {
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
             />
-            <table className="table table-striped table-responsive" {...getTableProps()}>
+            <table id="table-of-all-circuits"className="table table-striped table-responsive" {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>

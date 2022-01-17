@@ -2,12 +2,13 @@ import React, { useState, useEffect} from "react";
 import "../../App.css";
 import axios from "axios";
 import ConstructorTable from "./ConstructorTable";
+import AuthHeader from "../../services/auth-header";
 
 const ConstructorList = () => {
   const [constructors, setConstructors] = useState([]);
 
   const getAllConstructors = async() => {
-    await axios.get("http://localhost:5000/api/all-constructors")
+    await axios.get("http://localhost:5000/api/all-constructors",{headers:AuthHeader()})
     .then(res => res.data)
     .then(res => setConstructors(res));
   }
@@ -36,7 +37,7 @@ const ConstructorList = () => {
         accessor: "url",
         Cell: ({ row }) => (
             <div>
-                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank">
+                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank" rel="noreferrer">
                     More Info
                 </a>
             </div>

@@ -1,39 +1,39 @@
 import React from 'react';
-import { useTable,usePagination,useGlobalFilter,useAsyncDebounce,useFilters,useSortBy } from 'react-table';
+import { useTable,usePagination,useGlobalFilter,useFilters,useSortBy } from 'react-table';
 import "../../styles/race.css";
 import "../../App.css"
 
-function GlobalFilter({
-    preGlobalFilteredRows,
-    globalFilter,
-    setGlobalFilter,
-  }) {
-    const count = preGlobalFilteredRows.length
-    const [value, setValue] = React.useState(globalFilter)
-    const onChange = useAsyncDebounce(value => {
-      setGlobalFilter(value || undefined)
-    }, 200)
-    return (
-    <>
-        <form className="form-search-races">
-            <input
-                className="input-filter-races"
-                value={value || ""}
-                onChange={e => {
-                    setValue(e.target.value);
-                    onChange(e.target.value);
-                }}
-                required
-            />
-            <label className="label-filter-races">
-                <span className="text-filter-races">
-                    <b>Search</b>
-                </span>
-            </label>
-        </form>
-    </>
-    )
-  }
+// function GlobalFilter({
+//     preGlobalFilteredRows,
+//     globalFilter,
+//     setGlobalFilter,
+//   }) {
+//     const count = preGlobalFilteredRows.length
+//     const [value, setValue] = React.useState(globalFilter)
+//     const onChange = useAsyncDebounce(value => {
+//       setGlobalFilter(value || undefined)
+//     }, 200)
+//     return (
+//     <>
+//         <form className="form-search-races">
+//             <input
+//                 className="input-filter-races"
+//                 value={value || ""}
+//                 onChange={e => {
+//                     setValue(e.target.value);
+//                     onChange(e.target.value);
+//                 }}
+//                 required
+//             />
+//             <label className="label-filter-races">
+//                 <span className="text-filter-races">
+//                     <b>Search</b>
+//                 </span>
+//             </label>
+//         </form>
+//     </>
+//     )
+//   }
 
 function RaceResultsTable({columns,data}) {
 
@@ -41,7 +41,7 @@ function RaceResultsTable({columns,data}) {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        // rows,
         prepareRow,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
@@ -55,9 +55,9 @@ function RaceResultsTable({columns,data}) {
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize},
-        preGlobalFilteredRows,
-        setGlobalFilter,
-        state,
+        // preGlobalFilteredRows,
+        // setGlobalFilter,
+        // state,
     } = useTable(
         {
             columns,

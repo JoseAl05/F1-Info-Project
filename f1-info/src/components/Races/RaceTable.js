@@ -1,39 +1,39 @@
 import React from 'react';
-import { useTable,usePagination,useGlobalFilter,useAsyncDebounce,useFilters,useSortBy } from 'react-table';
+import { useTable,usePagination,useGlobalFilter,useFilters,useSortBy } from 'react-table';
 import "../../styles/race.css";
 import "../../App.css"
 
-function GlobalFilter({
-    preGlobalFilteredRows,
-    globalFilter,
-    setGlobalFilter,
-  }) {
-    const count = preGlobalFilteredRows.length
-    const [value, setValue] = React.useState(globalFilter)
-    const onChange = useAsyncDebounce(value => {
-      setGlobalFilter(value || undefined)
-    }, 200)
-    return (
-    <>
-        <form className="form-search-races">
-            <input
-                className="input-filter-races"
-                value={value || ""}
-                onChange={e => {
-                    setValue(e.target.value);
-                    onChange(e.target.value);
-                }}
-                required
-            />
-            <label className="label-filter-races">
-                <span className="text-filter-races">
-                    <b>Search</b>
-                </span>
-            </label>
-        </form>
-    </>
-    )
-  }
+// function GlobalFilter({
+//     preGlobalFilteredRows,
+//     globalFilter,
+//     setGlobalFilter,
+//   }) {
+//     const count = preGlobalFilteredRows.length
+//     const [value, setValue] = React.useState(globalFilter)
+//     const onChange = useAsyncDebounce(value => {
+//       setGlobalFilter(value || undefined)
+//     }, 200)
+//     return (
+//     <>
+//         <form className="form-search-races">
+//             <input
+//                 className="input-filter-races"
+//                 value={value || ""}
+//                 onChange={e => {
+//                     setValue(e.target.value);
+//                     onChange(e.target.value);
+//                 }}
+//                 required
+//             />
+//             <label className="label-filter-races">
+//                 <span className="text-filter-races">
+//                     <b>Search</b>
+//                 </span>
+//             </label>
+//         </form>
+//     </>
+//     )
+//   }
 
 function RaceTable({columns,data}) {
 
@@ -41,7 +41,7 @@ function RaceTable({columns,data}) {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        // rows,
         prepareRow,
         page, // Instead of using 'rows', we'll use page,
         // which has only the rows for the active page
@@ -55,9 +55,9 @@ function RaceTable({columns,data}) {
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize},
-        preGlobalFilteredRows,
-        setGlobalFilter,
-        state,
+        // preGlobalFilteredRows,
+        // setGlobalFilter,
+        // state,
     } = useTable(
         {
             columns,
@@ -78,7 +78,7 @@ function RaceTable({columns,data}) {
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
             /> */}
-            <table className="table table-striped table-responsive" {...getTableProps()}>
+            <table id="table-of-races-by-circuit" className="table table-striped table-responsive" {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
@@ -113,16 +113,16 @@ function RaceTable({columns,data}) {
                 </tbody>
             </table>
             <div className="pagination justify-content-center">
-                <button className="button-race-list-pagination-left" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                <button className="button-race-list-pagination-left" id="button-race-list-pagination-left-last-page" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     <b>{'<<'}</b>
                 </button>
-                <button className="button-race-list-pagination-left" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                <button className="button-race-list-pagination-left" id="button-race-list-pagination-left" onClick={() => previousPage()} disabled={!canPreviousPage}>
                     <b>{'<'}</b>
                 </button>
-                <button className="button-race-list-pagination-right" onClick={() => nextPage()} disabled={!canNextPage}>
+                <button className="button-race-list-pagination-right" id="button-race-list-pagination-right" onClick={() => nextPage()} disabled={!canNextPage}>
                     <b>{'>'}</b>
                 </button>
-                <button className="button-race-list-pagination-right" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                <button className="button-race-list-pagination-right" id="button-race-list-pagination-right-last-page" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     <b>{'>>'}</b>
                 </button>
                 <span className="page-index">

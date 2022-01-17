@@ -3,6 +3,7 @@ import "../../App.css";
 import axios from "axios";
 import DriverTable from './DriverTable';
 import DriversForm from "./DriversForm";
+import AuthHeader from "../../services/auth-header";
 
 const DriverList = () => {
   const [drivers, setDrivers] = useState([]);
@@ -21,7 +22,7 @@ const DriverList = () => {
   const [selectedDriverName,setSelectedDriverName] = useState("");
 
   const getAllDrivers = async() => {
-    await axios.get("http://localhost:5000/api/all-drivers")
+    await axios.get("http://localhost:5000/api/all-drivers",{headers:AuthHeader()})
     .then(res => res.data)
     .then(res => setDrivers(res));
     setIsLoadingDrivers(false);
@@ -47,43 +48,64 @@ const DriverList = () => {
 
     e.preventDefault();
     await axios.post("http://localhost:5000/api/wins-by-driver/",{
-        Driver:selectedDriver.Driver
+        Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setDriverWins(res));
 
     await axios.post("http://localhost:5000/api/podiums-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setDriverPodiums(res));
 
     await axios.post("http://localhost:5000/api/scored-races-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setScoredRaces(res));
 
     await axios.post("http://localhost:5000/api/poles-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setDriverpoles(res));
 
     await axios.post("http://localhost:5000/api/points-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setDriverPoints(res));
 
     await axios.post("http://localhost:5000/api/laps-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setLapsCompleted(res));
 
     await axios.post("http://localhost:5000/api/total-races-by-driver/",{
-      Driver:selectedDriver.Driver
+      Driver:selectedDriver.Driver,
+    },
+    {
+      headers:AuthHeader(),
     })
     .then(res => res.data)
     .then(res => setDriverTotalRaces(res));
@@ -124,7 +146,7 @@ const DriverList = () => {
         accessor: "url",
         Cell: ({ row }) => (
             <div>
-                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank">
+                <a type="button" className="btn btn-danger" href={row.original.url} target="_blank" rel="noreferrer">
                     More Info
                 </a>
             </div>

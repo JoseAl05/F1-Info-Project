@@ -2,7 +2,7 @@ import React from 'react';
 import "../../styles/circuit.css";
 import "../../App.css"
 import RaceTable from "../Races/RaceTable";
-import {BrowserRouter as Router,Route,Routes,Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 
@@ -44,7 +44,7 @@ const CircuitRacesForm = ({circuits,handleChangeCircuit,getRaceByCircuit,qRaces,
             accessor: "url",
             Cell: ({ row }) => (
                 <div>
-                    <a type="button" className="btn btn-danger " href={row.original.url} target="_blank">
+                    <a type="button" className="btn btn-danger " href={row.original.url} target="_blank" rel="noreferrer">
                       More Info
                     </a>
                     <Link to={`/race-results-form/${row.original.raceId}`}>

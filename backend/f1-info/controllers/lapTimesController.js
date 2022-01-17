@@ -8,7 +8,7 @@ module.exports = {
         return LapTimes
             .findAll({
                 attributes:{
-                    exclude:['createdAt','updatedAt'],
+                    exclude:['createdAt','updatedAt','position','milliseconds'],
                 },
                 order:[[
                     'lap','ASC'
@@ -22,10 +22,10 @@ module.exports = {
                         model:Driver,
                         as:'drivers',
                         attributes:{
-                            exclude:['createdAt','updatedAt'],
+                            exclude:['createdAt','updatedAt','dob','driverRef','forename','nationality','number','surname','url'],
                         },
                     },
-                ]
+                ],
             })
             .then(lapTimes => {
                 res.status(200).json(lapTimes);

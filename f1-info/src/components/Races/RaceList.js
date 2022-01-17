@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 import RaceTable from "./RaceTable";
 import "../../styles/circuit.css";
 import "../../App.css"
@@ -6,6 +6,7 @@ import axios from "axios";
 import DateTime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import {Link} from 'react-router-dom';
+import AuthHeader from "../../services/auth-header";
 
 const RaceList = () => {
     const [raceByYear,setRaceByYear] = useState([]);
@@ -20,13 +21,15 @@ const RaceList = () => {
     const getRaceByYear = async(e) => {
         e.preventDefault();
         await axios.post("http://localhost:5000/api/race-by-year/",{
-            Year:selectedYear.Year
+            Year:selectedYear.Year,
+        },
+        {
+            headers:AuthHeader(),
         })
         .then(res => res.data)
         .then(res => setRaceByYear(res));
     }
 
-    console.log(raceByYear);
 
     const columns = React.useMemo(
         () => [
@@ -59,10 +62,10 @@ const RaceList = () => {
             accessor: "url",
             Cell: ({ row }) => (
                 <div>
-                    <a type="button" className="btn btn-danger " href={row.original.url} target="_blank">
+                    <a type="button" className="btn btn-danger " href={row.original.url} target="_blank" rel="noreferrer">
                       More Info
                     </a>
-                    <Link to={`/race-results-form/${row.original.raceId}`} target="_blank">
+                    <Link to={`/race-results-form/${row.original.raceId}`} target="_blank" rel="noreferrer">
                       <button type="button" className="btn btn-success btn-see-results-races">
                         See Results
                       </button>
