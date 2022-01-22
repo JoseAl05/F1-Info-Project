@@ -507,6 +507,55 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
     // Finally we push an empty space at beginning of those arrays.
 
     filteredArray.map(arrays => arrays.unshift(' '));
+
+    // This is the final output and the format that we are looking for.
+    //
+    //   [
+    //     [
+    //         "HAM"
+    //     ],
+    //     [
+    //         " ",
+    //         1,
+    //         15,
+    //         "1:59.979"
+    //     ],
+    //     [
+    //         " ",
+    //         2,
+    //         15,
+    //         "2:24.326"
+    //     ],
+    //     [
+    //         " ",
+    //         3,
+    //         14,
+    //         "2:18.709"
+    //     ],
+    //     [
+    //         "ROS"
+    //     ],
+    //     [
+    //         " ",
+    //         1,
+    //         7,
+    //         "1:51.701"
+    //     ],
+    //     [
+    //         " ",
+    //         2,
+    //         7,
+    //         "2:25.721"
+    //     ],
+    //     [
+    //         " ",
+    //         3,
+    //         7,
+    //         "2:17.745"
+    //     ]
+    // ]
+    //
+
     headersForGrid = Object.keys(newDataLapTimes[0]);
   }
 
