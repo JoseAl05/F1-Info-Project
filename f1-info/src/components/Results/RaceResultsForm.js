@@ -1,4 +1,4 @@
-import React, { useState,useLayoutEffect} from "react";
+import React, { useState,useEffect} from "react";
 import "../../styles/race.css";
 import "../../App.css"
 import axios from "axios";
@@ -17,6 +17,10 @@ const RaceResultsForm = () => {
     const [lapTimesFlag,setLapTimesFlag] = useState(false);
     const {raceId} = useParams();
     const [selectedDrivers,setSelectedDrivers] = useState([]);
+    const [laps,setLaps] = useState([]);
+    const [labels,setLabels] = useState([]);
+    const [driversSelected,setDriversSelected] = useState([]);
+    const [data,setData] = useState({labels:[],datasets:[]});
     // const [isSubmitted,setIsSubmitted] = useState(false);
 
     const getRaceResults = async() => {
@@ -25,7 +29,7 @@ const RaceResultsForm = () => {
         .then(res => setRaceResults(res));
         setRaceResultsFlag(true);
     }
-    useLayoutEffect(() => {
+    useEffect(() => {
         getRaceResults();
     }, []);
 
@@ -44,36 +48,138 @@ const RaceResultsForm = () => {
     }
 
     const handleDriversChange = (selectedOptions) => {
-        const drivers = [];
+        const driversId = [];
+        const driversCode = [];
         for(let i = 0 ; i<selectedOptions.length;i++){
-            drivers.push(selectedOptions[i].value);
+            driversId.push(selectedOptions[i].value);
+            driversCode.push(selectedOptions[i].label);
         }
-        setSelectedDrivers(drivers);
+        setSelectedDrivers(driversId);
+        setDriversSelected(driversCode);
     }
 
-    const onSubmitDrivers = async (e) => {
-        // setIsSubmitted(true);
-        getLapTimes(e);
+    const handleLapsChange = (selectedOptions) => {
+        // const rangeOfLaps = [];
+        // for(let i = 0 ; i<selectedOptions.length;i++){
+        //     rangeOfLaps.push(selectedOptions);
+        // }
+        setLaps(selectedOptions);
     }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    // const selectedD = async() => {
+
+    //     await axios.post(`http://localhost:5000/api/a/${raceId}/`,{
+    //             Drivers:selectedDrivers,
+    //             lap:laps,
+    //         },
+    //     )
+    //     .then(res => res.data)
+    //     .then(res => setDriversSelected(res))
+    // }
+
 
     const getLapTimes = async(e) => {
         e.preventDefault();
 
         await axios.post(`http://localhost:5000/api/lap-times-by-race/${raceId}/`,{
             Drivers:selectedDrivers,
+            lap:laps,
         },
         {
             headers:AuthHeader(),
         })
         .then(res => res.data)
-        .then(res => setLapTimes(res));
+        .then(res => {
+            setLapTimes(res);
+            // console.log(res);
+            let dataSetsForChart = {};
+            res.forEach((element,i) => {
+                dataSetsForChart={
+                    labels:res.map(driver => driver.drivers.code),
+                    datasets:[
+                        {
+                            label:'Position',
+                            data:res.map(position => position.position),
+                            backgroundColor:[getRandomColor()],
+                            yAxisID:'y',
+                        },
+                        {
+                            label:'Lap',
+                            data:res.map(lap => lap.lap),
+                            backgroundColor:[getRandomColor()],
+                            yAxisID:'y1',
+                        }
+                    ]
+                }
+                return dataSetsForChart;
+            })
+            console.log(dataSetsForChart);
+            // for(let i = 0 ; i<laps.length ; i++){
+            //     dataSetsForChart={
+            //         labels:[driversSelected[i]],
+            //         datasets:[
+            //             {
+            //                 label:'Position',
+            //                 data:res.filter(driver => driver.drivers.driverId === selectedDrivers[i]).map(position => position.position),
+            //                 backgroundColor:[getRandomColor()],
+            //                 fill:false,
+            //             },
+            //             {
+            //                 label:'Lap',
+            //                 data:res.filter(driver => driver.drivers.driverId === selectedDrivers[i]).map(lap => lap.lap),
+            //                 backgroundColor:[getRandomColor()],
+            //                 fill:false,
+            //             }
+            //         ]
+            //     }
+            // }
+            setData(dataSetsForChart);
+            // const data = [
+            //     {
+            //         dataSets:dataSets,
+            //     }
+            // ]
+            // setData(dataSets);
+            // const data = {
+            //     labels:res.map(driver => driver.drivers.code),
+            //     datasets:
+            //     [
+            //         {
+            //             label:'Driver Position',
+            //             data:res.map(position => position.position),
+            //             backgroundColor:[getRandomColor()],
+            //         },
+            //         {
+            //             label:'Lap',
+            //             data:res.map(lap => lap.lap),
+            //             backgroundColor:[getRandomColor()],
+            //         }
+            //     ],
+            // };
+            // setData(data);
+        });
 
         setLapTimesFlag(true);
     }
+    // console.log(data);
+    const onSubmitDrivers = async (e) => {
+        // setIsSubmitted(true);
+        getLapTimes(e);
+        // selectedD();
+    }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         getQualyResults();
         getDriverStandings();
+        // selectedD();
     }, []);
 
     return(
@@ -89,6 +195,9 @@ const RaceResultsForm = () => {
                 lapTimesFlag = {lapTimesFlag}
                 handleDriversChange = {handleDriversChange}
                 onSubmitDrivers = {onSubmitDrivers}
+                handleLapsChange  = {handleLapsChange}
+                labels = {labels}
+                data = {data}
             />
         </>
     )

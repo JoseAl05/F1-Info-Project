@@ -51,6 +51,8 @@ router.post('/total-races-by-driver/',[authJwt.verifyToken],RaceResultsControlle
 
   // LAPTIMES //
 router.post('/lap-times-by-race/:raceId/',[authJwt.verifyToken],LapTimesController.getLapTimesByRace);
+router.post('/lap-times-by-race-test/:raceId/',LapTimesController.getLapTimesByRaceTest);
+router.post('/a/:raceId/',LapTimesController.countDrivers);
 
   // QUALIFYING //
 router.post('/qualy-results/:raceId',[authJwt.verifyToken],QualifyingController.getQualifySession);

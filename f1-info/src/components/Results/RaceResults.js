@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RaceResultsTable from "./RaceResultsTable";
 import QualifyTable from "../Qualify/QualifyTable";
 import DriverStandingTable from "../DriverStandings/DriverStandingsTable";
@@ -6,6 +6,8 @@ import LapTimesTable from "../LapTimes/LapTimesTable";
 import LapTimesForm from "../LapTimes/LapTimesForm";
 import "../../styles/race.css";
 import "../../App.css";
+import {Grid,AutoSizer} from 'react-virtualized';
+import 'react-virtualized/styles.css';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -32,10 +34,10 @@ import {
   Title,
   Tooltip
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar,Line } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 
-const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag,handleDriversChange,onSubmitDrivers}) => {
+const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,driverStandingsFlag,driverStandings,lapTimes,lapTimesFlag,handleDriversChange,onSubmitDrivers,handleLapsChange,data}) => {
 
   ChartJS.register(
     ArcElement,
@@ -60,7 +62,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
     Filler,
     Legend,
     Title,
-    Tooltip
+    Tooltip,
   );
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,341 +184,445 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
     dataLapTimes.forEach(dataLapTimes => {
       dataLapTimes.driver.forEach((driver,i) => {
         newDataLapTimes.push({
-          driver:driver,
-          lap:dataLapTimes.lap[i],
-          // position:dataLapTimes.position[i],
-          time:dataLapTimes.time[i],
+          Driver:driver,
+          Lap:dataLapTimes.lap[i],
+          Position:dataLapTimes.position[i],
+          Time:dataLapTimes.time[i],
           // milliseconds:dataLapTimes.milliseconds[i],
         })
-      })
     })
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  })
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-    const columnsRaceResults = React.useMemo(
-        () => [
-          {
-            Header: "Driver",
-            accessor: "driverName"
-          },
-          {
-            Header:"Team",
-            accessor:"constructor"
-          },
-          {
-            Header: "Number of Driver",
-            accessor: "number",
-          },
-          {
-            Header: "Position",
-            accessor: "position",
-            Cell: row => {
-              return row.value === null ? "DNF" : row.value
-            }
-          },
-          {
-            Header:"Position Order",
-            accessor: "positionOrder",
-          },
-          {
-            Header:"Position in Grid",
-            accessor:"grid"
-          },
-          {
-            Header:"Laps",
-            accessor:"laps"
-          },
-          {
-            Header:"Race Time",
-            accessor:"time",
-            Cell: row => {
-              return row.value === null ? "NO TIME" : row.value
-            }
-          },
-          {
-            Header:"Fastest Lap",
-            accessor:"fastestLapTime",
-            Cell: row => {
-              if (row.value === null)
-                return "NO TIME";
-              return row.value;
-            }
-          },
-          {
-            Header:"Fastest Lap Speed",
-            accessor:"fastestLapSpeed"
-          },
-          {
-            Header:"Points",
-            accessor:"points",
-            Cell: row => {
-              return row.value === 0 ? <span className="badge badge-danger" style={{background:"red"}}>{row.value}</span> : <span className="badge badge-success" style={{background:"green"}}>{row.value}</span>
-            }
-          },
-          {
-            Header:"Status",
-            accessor:"status"
-          }
-        ],
-        []
-      );
-
-      const columnsQualify = React.useMemo(
-        () => [
-          {
-            Header: "Driver",
-            accessor: "driver"
-          },
-          {
-            Header: "Race",
-            accessor: "race",
-          },
-          {
-            Header: "Number",
-            accessor: "number",
-          },
-          {
-            Header:"Position",
-            accessor: "position",
-          },
-          {
-            Header:"Q1 Lap",
-            accessor:"q1",
-            Cell: row => {
-              return row.value === null ? "NO TIME" : row.value
-            }
-          },
-          {
-            Header:"Q2 Lap",
-            accessor:"q2",
-            Cell: row => {
-              return row.value === null ? "NO TIME" : row.value
-            }
-          },
-          {
-            Header:"Q3 Lap",
-            accessor:"q3",
-            Cell: row => {
-              return row.value === null ? "NO TIME" : row.value
-            }
-          },
-        ],
-        []
-      );
-
-      const columnsDriverStandings = React.useMemo(
-        () => [
-          {
-            Header: "Driver",
-            accessor: "driver"
-          },
-          {
-            Header: "Race",
-            accessor: "race",
-          },
-          {
-            Header: "Position",
-            accessor: "position",
-          },
-          {
-            Header:'Points in this Season',
-            accessor:'points',
-          },
-          {
-            Header:"Wins in this Season",
-            accessor: "wins",
-          },
-        ],
-        []
-      );
-
-      const columnsLapTimes = React.useMemo(
-        () => [
-          {
-            Header: "Driver",
-            accessor: "driver"
-          },
-          {
-            Header: "Lap",
-            accessor: "lap",
-          },
-          {
-            Header: "Position",
-            accessor: "position",
-          },
-          {
-            Header:'Lap Time',
-            accessor:'time',
-          },
-        ],
-        []
-      );
-
-    const labels = lapTimes.map(driver => {
-      console.log(driver);
-      return driver.drivers.code + '; LAP ' + driver.lap;
-    });
-    const data = {
-      labels,
-      datasets : [
+  const columnsRaceResults = React.useMemo(
+      () => [
         {
-          key:'laptime',
-          label:'lap',
-          data:lapTimes.map(time => time.time),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          yAxisID:'y',
-          xAxisID:'x1',
-          // stack:'Stack 0'
+          Header: "Driver",
+          accessor: "driverName"
         },
-        // {
-        //   key:'lap',
-        //   label:'Lap',
-        //   data:newDataLapTimes.map(lap => lap.lap),
-        //   borderColor: 'rgb(120, 99, 132)',
-        //   backgroundColor: 'rgba(120, 99, 132, 0.5)',
-        //   yAxisID:'y1',
-        //   xAxisID:'x2',
-        //   stack:'Stack 1'
-        // }
-      ]
-    };
+        {
+          Header:"Team",
+          accessor:"constructor"
+        },
+        {
+          Header: "Number of Driver",
+          accessor: "number",
+        },
+        {
+          Header: "Position",
+          accessor: "position",
+          Cell: row => {
+            return row.value === null ? "DNF" : row.value
+          }
+        },
+        {
+          Header:"Position Order",
+          accessor: "positionOrder",
+        },
+        {
+          Header:"Position in Grid",
+          accessor:"grid"
+        },
+        {
+          Header:"Laps",
+          accessor:"laps"
+        },
+        {
+          Header:"Race Time",
+          accessor:"time",
+          Cell: row => {
+            return row.value === null ? "NO TIME" : row.value
+          }
+        },
+        {
+          Header:"Fastest Lap",
+          accessor:"fastestLapTime",
+          Cell: row => {
+            if (row.value === null)
+              return "NO TIME";
+            return row.value;
+          }
+        },
+        {
+          Header:"Fastest Lap Speed",
+          accessor:"fastestLapSpeed"
+        },
+        {
+          Header:"Points",
+          accessor:"points",
+          Cell: row => {
+            return row.value === 0 ? <span className="badge badge-danger" style={{background:"red"}}>{row.value}</span> : <span className="badge badge-success" style={{background:"green"}}>{row.value}</span>
+          }
+        },
+        {
+          Header:"Status",
+          accessor:"status"
+        }
+      ],
+      []
+    );
 
-    const options = {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
+    const columnsQualify = React.useMemo(
+      () => [
+        {
+          Header: "Driver",
+          accessor: "driver"
         },
-        title: {
-          display: true,
-          text: 'Lap Times',
+        {
+          Header: "Race",
+          accessor: "race",
+        },
+        {
+          Header: "Number",
+          accessor: "number",
+        },
+        {
+          Header:"Position",
+          accessor: "position",
+        },
+        {
+          Header:"Q1 Lap",
+          accessor:"q1",
+          Cell: row => {
+            return row.value === null ? "NO TIME" : row.value
+          }
+        },
+        {
+          Header:"Q2 Lap",
+          accessor:"q2",
+          Cell: row => {
+            return row.value === null ? "NO TIME" : row.value
+          }
+        },
+        {
+          Header:"Q3 Lap",
+          accessor:"q3",
+          Cell: row => {
+            return row.value === null ? "NO TIME" : row.value
+          }
+        },
+      ],
+      []
+    );
+
+    const columnsDriverStandings = React.useMemo(
+      () => [
+        {
+          Header: "Driver",
+          accessor: "driver"
+        },
+        {
+          Header: "Race",
+          accessor: "race",
+        },
+        {
+          Header: "Position",
+          accessor: "position",
+        },
+        {
+          Header:'Points in this Season',
+          accessor:'points',
+        },
+        {
+          Header:"Wins in this Season",
+          accessor: "wins",
+        },
+      ],
+      []
+    );
+
+    const columnsLapTimes = React.useMemo(
+      () => [
+        {
+          Header: "Driver",
+          accessor: "driver"
+        },
+        {
+          Header: "Lap",
+          accessor: "lap",
+        },
+        {
+          Header: "Position",
+          accessor: "position",
+        },
+        {
+          Header:'Lap Time',
+          accessor:'time',
+        },
+      ],
+      []
+    );
+
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Race History by Lap and Driver',
+      },
+    },
+    scales: {
+      x:{
+        position: 'bottom',
+        ticks: {
+          font:{
+            size:8,
+          },
+          maxTicksLimit: 350,
+        }
+      },
+      y:{
+        display:true,
+        type:'linear',
+        position:'left',
+        ticks:{
+          maxTicksLimit: 10
+        },
+        grid: {
+          drawOnChartArea: false,
         },
       },
-      scales: {
-        x1:{
-          ticks:{
-            font:{
-              size:8,
-            },
-            // callback: function(value, index, values) {
-            //   return this.getLabelForValue(value).split(';');
-            // }
-          }
-        },
-          // x1:{
-          //   xAxisID:'x1',
-          //   position: 'top',
-          //   ticks: {
-          //     font:{
-          //       size:8,
-          //     },
-          //     maxTicksLimit: 350,
-          //     callback: function(value, index, values) {
-          //       return this.getLabelForValue(value).split(';')[0];
-          //     }
-          //   }
-          // },
-          // x2:{
-          //   xAxisID:'x2',
-          //   position: 'bottom',
-          //   ticks: {
-          //     font:{
-          //       size:10,
-          //     },
-          //     maxTicksLimit: 350,
-          //     callback: function(value, index, values) {
-          //       return this.getLabelForValue(value).split(';')[1];
-          //     }
-          //   }
-          // },
-          y: {
-            display: true,
-            stacked:true,
-            type: 'time',
-            time: {
-                parser: 'HH:mm:ss',
-                unit: "seconds",
-                tooltipFormat: 'HH:mm:ss',
-                displayFormats: {
-                    'seconds': "HH:mm:ss"
-                },
-            },
-            min: '1:0.0',
-            max: '2:7.0',
-            xAxisID:'x1',
-            ticks:{
-              autoSkip: true,
-              maxTicksLimit: 15
-            }
-          },
-          // y1:{
-          //   type:'linear',
-          //   stacked:true,
-          //   display:true,
-          //   position:'right',
-          //   ticks:{
-          //     autoSkip: true,
-          //     maxTicksLimit: 15
-          //   },
-          //   grid: {
-          //     drawOnChartArea: false,
-          //   },
-          //   xAxisID:'x2',
-          // },
-        }
-      };
+      y1:{
+        display:true,
+        position:'right',
+      },
+    }
+  };
 
-    return (
-        <>
-            <div className="container">
-                <div className="card">
-                  <div className="card-body">
-                      <div className="card-header">
-                        <h3 className="card-title">
-                            <b>Results Table</b>
-                        </h3>
-                      </div>
-                      {raceResultsFlag && <RaceResultsTable columns={columnsRaceResults} data={newDataResults} />}
-                  </div>
-                    <div className="card-body">
-                      <div className="card-header">
-                        <h3 className="card-title">
-                            <b>Qualify Table</b>
-                        </h3>
-                      </div>
-                      {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
-                    </div>
-                  <div className="card-body">
-                      <div className="card-header">
-                        <h3 className="card-title">
-                            <b>Driver Standings Table at this point of the season.</b>
-                        </h3>
-                    </div>
-                    {driverStandingsFlag && <DriverStandingTable columns={columnsDriverStandings} data={newDataDriverStandings}/>}
-                </div>
+  let driverNames = [];
+  let headersForGrid = [];
+  let timeLineRace = [];
+  let filteredArray = [];
+  console.log(newDataLapTimes);
+  // At the start of this logic, our data looks like this.
+  //
+  //
+  //   [
+  //     {
+  //         "Driver": "HAM",
+  //         "Lap": 1,
+  //         "Position": 15,
+  //         "Time": "1:59.979"
+  //     },
+  //     {
+  //         "Driver": "HAM",
+  //         "Lap": 2,
+  //         "Position": 15,
+  //         "Time": "2:24.326"
+  //     },
+  //     {
+  //         "Driver": "HAM",
+  //         "Lap": 3,
+  //         "Position": 14,
+  //         "Time": "2:18.709"
+  //     },
+  //     {
+  //         "Driver": "ROS",
+  //         "Lap": 1,
+  //         "Position": 7,
+  //         "Time": "1:51.701"
+  //     },
+  //     {
+  //         "Driver": "ROS",
+  //         "Lap": 2,
+  //         "Position": 7,
+  //         "Time": "2:25.721"
+  //     },
+  //     {
+  //         "Driver": "ROS",
+  //         "Lap": 3,
+  //         "Position": 7,
+  //         "Time": "2:17.745"
+  //     }
+  // ]
+  //
+  // This format is not what we need.
+  //
+  // newDataLapTimes has the name of the driver repeated as many times as number of laps,
+  // for example, if the user selected 5 laps, the name of the driver will be repeated up to 5 times
+  // so I needed to get only unique values of the names.
+
+  const uniqueDriverNames = new Set(newDataLapTimes.map(d => d.Driver));
+
+  //Then pushed the unique values to a new Array
+
+  driverNames.push(Array.from(uniqueDriverNames.values()));
+  console.log(driverNames);
+  // This is the output
+  //
+  // [
+  //   [
+  //       "HAM",
+  //       "ROS"
+  //   ]
+  // ]
+  //
+  // When the request of lap times,position and number of laps and the driver whose you want to know info about is ready
+  // (lapTimesFlag === true), the loop starts.
+
+  if(lapTimesFlag){
+
+    // First loop into driver names array
+
+    for(let x = 0 ; x<driverNames[0].length ; x++){
+
+      // Push the first name into the final array that we are going to use to display data.
+      // Also need to filter the driver names array to get the driver we need.
+
+      timeLineRace.push(driverNames[0].filter((data,index) => index === x));
+
+      //After that, loop into newDataLapTimes, that is our variable filled with data by the request.
+
+      for(let i = 0 ; i<newDataLapTimes.length ; i++){
+
+        //We ask if the names matches.
+
+        if(driverNames[0][x] === newDataLapTimes[i].Driver){
+
+          // If matches we push only the info that we need. We descart the name, that's why the filter.
+
+          timeLineRace.push(Object.values(newDataLapTimes[i]).filter((data,index) => index != 0));
+        }
+
+        // If does not match, we continue the loop.
+
+        if(driverNames[0][x] != newDataLapTimes[i].Driver){
+          continue;
+        }
+      }
+    }
+    console.log(timeLineRace);
+
+    // When the loops are finished, we need to filter our final array, to get only the arrays that have the race information.
+
+    let filteredArray = timeLineRace.filter(arrays => arrays.length === 3);
+
+    // Finally we push an empty space at beginning of those arrays.
+
+    filteredArray.map(arrays => arrays.unshift(' '));
+    headersForGrid = Object.keys(newDataLapTimes[0]);
+  }
+
+  const cellRendererGridBody = ({columnIndex,key,rowIndex,style}) =>{
+    return(
+      <div key={key} style={style}>
+        {timeLineRace[rowIndex][columnIndex]}
+      </div>
+    );
+  }
+
+  const cellRendererGridHeader = ({columnIndex,key,rowIndex,style}) =>{
+    return(
+      <div key={key} style={style}>
+        {headersForGrid[columnIndex]}
+      </div>
+    );
+  }
+  const TOP_COLOR_FROM = 'red';
+
+  return (
+      <>
+          <div className="container">
+              <div className="card">
                 <div className="card-body">
-                  <div className="card-header">
-                    <h3 className="card-title">
-                      <b>Lap Times of the race.</b>
-                    </h3>
-                  </div>
-                  {lapTimesFlag && <LapTimesTable columns={columnsLapTimes} data={newDataLapTimes}/>}
+                    <div className="card-header">
+                      <h3 className="card-title">
+                          <b>Results Table</b>
+                      </h3>
+                    </div>
+                    {raceResultsFlag && <RaceResultsTable columns={columnsRaceResults} data={newDataResults} />}
                 </div>
+                  <div className="card-body">
+                    <div className="card-header">
+                      <h3 className="card-title">
+                          <b>Qualify Table</b>
+                      </h3>
+                    </div>
+                    {qualyResultsFlag && <QualifyTable columns={columnsQualify} data={newDataQualify}/>}
+                  </div>
                 <div className="card-body">
-                  <div className="card-header">
-                    <h3 className="card-title">
-                      <b>Lap Times of the race.</b>
-                    </h3>
+                    <div className="card-header">
+                      <h3 className="card-title">
+                          <b>Driver Standings Table at this point of the season.</b>
+                      </h3>
                   </div>
-                  <LapTimesForm raceResults={raceResults} handleDriversChange = {handleDriversChange} onSubmitDrivers={onSubmitDrivers}/>
-                    {lapTimesFlag && <Bar options={options} data={data} redraw />}
-                </div>
+                  {driverStandingsFlag && <DriverStandingTable columns={columnsDriverStandings} data={newDataDriverStandings}/>}
               </div>
-          </div>
-        </>
-    )
+              <div className="card-body">
+                <div className="card-header">
+                  <h3 className="card-title">
+                    <b>Lap Times of the race.</b>
+                  </h3>
+                </div>
+                {lapTimesFlag &&
+                  <div
+                    className="mt-5"
+                    style={{
+                      fontWeight:"bolder",
+                      alignContent:"center",
+                      height:"3rem",
+                      display:"flex",
+                      paddingLeft:"250px",
+                  }}>
+                    <AutoSizer>
+                      {({height, width}) => (
+                        <Grid
+                          cellRenderer={cellRendererGridHeader}
+                          columnCount={headersForGrid.length}
+                          columnWidth={200}
+                          height={height}
+                          rowCount={1}
+                          rowHeight={30}
+                          width={width}
+                        />
+                      )}
+                    </AutoSizer>
+                  </div>
+                }
+                {lapTimesFlag &&
+                  <div
+                    className="mt-5"
+                    style={{
+                      fontWeight:"bolder",
+                      alignContent:"center",
+                      height:"30rem",
+                      paddingLeft:"250px",
+                    }}>
+                    <AutoSizer>
+                    {({height, width}) => (
+                      <Grid
+                        cellRenderer={cellRendererGridBody}
+                        columnCount={timeLineRace[1].length + 1}
+                        columnWidth={200}
+                        height={height}
+                        rowCount={timeLineRace.length}
+                        rowHeight={30}
+                        width={width}
+                      />
+                    )}
+                  </AutoSizer>
+                </div>
+                }
+              </div>
+              <div className="card-body">
+                <div className="card-header">
+                  <h3 className="card-title">
+                    <b>Lap Times of the race.</b>
+                  </h3>
+                </div>
+                <LapTimesForm raceResults={raceResults} handleDriversChange = {handleDriversChange} onSubmitDrivers={onSubmitDrivers} handleLapsChange={handleLapsChange} raceResultsFlag={raceResultsFlag}/>
+                  {lapTimesFlag && <Line options={options} data={data}/>}
+              </div>
+            </div>
+        </div>
+      </>
+  )
 };
 export default RaceResults;
