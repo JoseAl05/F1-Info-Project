@@ -42,7 +42,7 @@ const DriversForm = ({
                     </div>
                     <button className="btn btn-danger mt-5">See Stats</button>
                     <div className='container mt-5'>
-                    {!isSubmitted ? <div></div> : <AtomLoader {...loaderProps}/>}
+                    {/* {!isSubmitted ? <div></div> : <AtomLoader {...loaderProps}/>}
                     {isDriverInfo && <DriversInformation
                                         driverWins={driverWins}
                                         driverPodiums={driverPodiums}
@@ -54,7 +54,7 @@ const DriversForm = ({
                                         selectedDriverName={selectedDriverName}
                                         isSelecetedDriver={isSelecetedDriver}
                                     />
-                    }
+                    } */}
                     </div>
                 </form>
             </>
