@@ -28,22 +28,16 @@ const CircuitList = () => {
       .then((res) => setCircuits(res));
   };
 
-  useEffect(() => {
-    getCircuits();
-  }, []);
 
 
   console.log(circuits);
 
 
-  useEffect(() => {
-    const getCountries = () => {
+  const getCountries = () => {
       fetch("http://localhost:5000/api/all-countrys",{headers:AuthHeader()})
         .then((res) => res.json())
         .then((res) => setCountries(res));
-    };
-    getCountries();
-  }, []);
+  };
 
 
   const handleChange = (e) => {
@@ -117,7 +111,11 @@ const CircuitList = () => {
     ],
     []
   );
-  console.log(AuthService.getCurrentUser());
+
+  useEffect(() => {
+    getCircuits();
+    getCountries();
+  }, []);
 
   if(!AuthService.getCurrentUser()){
     return(
@@ -127,8 +125,8 @@ const CircuitList = () => {
     )
   }
 
+
   return (
-    <React.StrictMode>
       <div className="container">
         <div className="card">
           <div className="row">
@@ -181,7 +179,6 @@ const CircuitList = () => {
           </div>
         </div>
       </div>
-    </React.StrictMode>
   );
 };
 

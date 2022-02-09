@@ -10,6 +10,7 @@ import RaceResultsForm from './components/Results/RaceResultsForm';
 import RaceList from './components/Races/RaceList';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
+import DriversInformation from './components/Drivers/DriversInformation';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/drivers" element={<DriverList/>} />
                 <Route path="/constructors" element={<ConstructorList/>}/>
                 <Route path="/race-results-form/:raceId" element={<RaceResultsForm/>}/>
+                <Route path="/driverStats/:driverId/:driverForename/:driverSurname/:isShowed" element={<DriversInformation/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
             </Routes>

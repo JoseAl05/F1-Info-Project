@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../images/f1logo.png';
 import "../../App.css";
-import {useLocation} from 'react-router-dom';
+import {useLocation,Link} from 'react-router-dom';
 import AuthService from '../../services/auth.service';
 
 
@@ -15,40 +15,46 @@ const NavbarV2 = () => {
 
     if(location.pathname === '/signup' || location.pathname === '/login'){
         return(
-            <div className="navbar">
-                <img src={logo} alt="logo" className="logo" />
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/signup">Sign Up</a></li>
-                    <li><a href="/login">Sign In</a></li>
-                </ul>
-            </div>
+            <section>
+                <div className="navbar">
+                    <img src={logo} alt="logo" className="logo" />
+                    <ul className="navbar-menu">
+                        <li><Link to={"/"}>Home</Link></li>
+                        <li><Link to={"/signup"}>Sign Up</Link></li>
+                        <li><Link to={"/login"}>Sign In</Link></li>
+                    </ul>
+                </div>
+            </section>
         )
     }
     if(currentUser){
         return(
-            <div className="navbar">
-                <img src={logo} alt="logo" className="logo" />
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/circuits">Circuits</a></li>
-                    <li><a href='/races'>Seasons</a></li>
-                    <li><a href="/drivers">Drivers</a></li>
-                    <li><a href="/constructors">Constructors</a></li>
-                    <li><a href="/login" onClick={logOut}>Logout</a></li>
-                </ul>
-            </div>
+            <section>
+                <div className="navbar">
+                    <img src={logo} alt="logo" className="logo" />
+                    <ul className="navbar-menu">
+                        <li><Link to={"/"}>Home</Link></li>
+                        <li><Link to={"/circuits"}>Circuits</Link></li>
+                        <li><Link to={"/races"}>Seasons</Link></li>
+                        <li><Link to={"/drivers"}>Drivers</Link></li>
+                        <li><Link to={"/constructors"}>Constructors</Link></li>
+                        <li><Link to={"/login"} onClick={logOut}>Logout</Link></li>
+                    </ul>
+                </div>
+            </section>
         )
     }else{
         return(
-            <div className="navbar">
-                <img src={logo} alt="logo" className="logo" />
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/signup">Sign Up</a></li>
-                    <li><a href="/login">Sign In</a></li>
-                </ul>
-            </div>
+            <section>
+                <div className="navbar">
+                    <img src={logo} alt="logo" className="logo" />
+                    <ul className="navbar-menu">
+                        <li><Link to={"/"}>Home</Link></li>
+                        <li><Link to={"/signup"}>Sign Up</Link></li>
+                        <li><Link to={"/login"}>Sign In</Link></li>
+                    </ul>
+                </div>
+            </section>
         )
     }
 }

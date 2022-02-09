@@ -55,7 +55,7 @@ module.exports = {
                     exclude:['createdAt','updatedAt'],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                     position:1
                 }
             })
@@ -73,7 +73,7 @@ module.exports = {
                     exclude:['createdAt','updatedAt'],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                     position:[1,2,3]
                 }
             })
@@ -91,7 +91,7 @@ module.exports = {
                     exclude:['createdAt','updatedAt'],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                     points:{
                         [Sequelize.Op.ne]:[0]
                     }
@@ -111,7 +111,7 @@ module.exports = {
                     exclude:['createdAt','updatedAt'],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                     grid:1
                 }
             })
@@ -151,7 +151,7 @@ module.exports = {
                     ],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                 }
             })
             .then(points => {
@@ -190,7 +190,7 @@ module.exports = {
                     ],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                 }
             })
             .then(laps => {
@@ -207,7 +207,7 @@ module.exports = {
                     exclude:['createdAt','updatedAt'],
                 },
                 where:{
-                    driverId:req.body.Driver,
+                    driverId:req.query.Driver,
                 }
             })
             .then(races => {

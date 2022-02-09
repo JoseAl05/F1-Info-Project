@@ -17,7 +17,7 @@ module.exports = {
                     raceId:req.params.raceId,
                     driverId:req.body.Drivers,
                     lap:{
-                        [Sequelize.Op.between]: req.body.lap
+                        [Sequelize.Op.between]: req.body.laps
                     }
                 },
                 include:[

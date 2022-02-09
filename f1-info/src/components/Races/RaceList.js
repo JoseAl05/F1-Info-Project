@@ -7,6 +7,7 @@ import DateTime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import {Link} from 'react-router-dom';
 import AuthHeader from "../../services/auth-header";
+import AuthService from "../../services/auth.service";
 
 const RaceList = () => {
     const [raceByYear,setRaceByYear] = useState([]);
@@ -78,6 +79,14 @@ const RaceList = () => {
       );
 
     console.log(selectedYear);
+
+    if(!AuthService.getCurrentUser()){
+        return(
+          <>
+            <h1>No Permission!</h1>
+          </>
+        )
+    }
 
     return(
         <>

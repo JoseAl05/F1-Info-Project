@@ -454,7 +454,7 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
   //Then pushed the unique values to a new Array
 
   driverNames.push(Array.from(uniqueDriverNames.values()));
-  console.log(driverNames);
+
   // This is the output
   //
   // [
@@ -498,7 +498,6 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
         }
       }
     }
-    console.log(timeLineRace);
 
     // When the loops are finished, we need to filter our final array, to get only the arrays that have the race information.
 
@@ -574,7 +573,6 @@ const RaceResults = ({raceResults,raceResultsFlag,qualyResultsFlag,qualyResults,
       </div>
     );
   }
-  const TOP_COLOR_FROM = 'red';
 
   return (
       <>

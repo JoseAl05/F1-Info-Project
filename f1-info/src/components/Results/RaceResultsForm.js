@@ -5,6 +5,7 @@ import axios from "axios";
 import {useParams} from 'react-router-dom';
 import RaceResults from "./RaceResults";
 import AuthHeader from "../../services/auth-header";
+import AuthService from "../../services/auth.service";
 
 const RaceResultsForm = () => {
     const [raceResults,setRaceResults] = useState([]);
@@ -19,7 +20,6 @@ const RaceResultsForm = () => {
     const [selectedDrivers,setSelectedDrivers] = useState([]);
     const [laps,setLaps] = useState([]);
     const [labels,setLabels] = useState([]);
-    const [driversSelected,setDriversSelected] = useState([]);
     const [data,setData] = useState({labels:[],datasets:[]});
     // const [isSubmitted,setIsSubmitted] = useState(false);
 
@@ -29,9 +29,6 @@ const RaceResultsForm = () => {
         .then(res => setRaceResults(res));
         setRaceResultsFlag(true);
     }
-    useEffect(() => {
-        getRaceResults();
-    }, []);
 
     const getQualyResults = async() => {
         await axios.post(`http://localhost:5000/api/qualy-results/${raceId}`,{},{headers:AuthHeader()})
@@ -49,21 +46,16 @@ const RaceResultsForm = () => {
 
     const handleDriversChange = (selectedOptions) => {
         const driversId = [];
-        const driversCode = [];
         for(let i = 0 ; i<selectedOptions.length;i++){
             driversId.push(selectedOptions[i].value);
-            driversCode.push(selectedOptions[i].label);
         }
         setSelectedDrivers(driversId);
-        setDriversSelected(driversCode);
+        console.log(driversId);
     }
 
-    const handleLapsChange = (selectedOptions) => {
-        // const rangeOfLaps = [];
-        // for(let i = 0 ; i<selectedOptions.length;i++){
-        //     rangeOfLaps.push(selectedOptions);
-        // }
-        setLaps(selectedOptions);
+    const handleLapsChange = (selectedOption) => {
+        setLaps(selectedOption)
+        console.log(laps);
     }
 
     function getRandomColor() {
@@ -74,24 +66,19 @@ const RaceResultsForm = () => {
         }
         return color;
     }
-    // const selectedD = async() => {
+    const lapsToArray = Object.values(laps);
+    let lapsToInt = [];
 
-    //     await axios.post(`http://localhost:5000/api/a/${raceId}/`,{
-    //             Drivers:selectedDrivers,
-    //             lap:laps,
-    //         },
-    //     )
-    //     .then(res => res.data)
-    //     .then(res => setDriversSelected(res))
-    // }
-
+    for(let i = 0 ; i<=lapsToArray.length;i++){
+        lapsToInt[i] = parseInt(lapsToArray[i]);
+    }
 
     const getLapTimes = async(e) => {
         e.preventDefault();
 
         await axios.post(`http://localhost:5000/api/lap-times-by-race/${raceId}/`,{
             Drivers:selectedDrivers,
-            lap:laps,
+            laps:lapsToInt,
         },
         {
             headers:AuthHeader(),
@@ -99,7 +86,6 @@ const RaceResultsForm = () => {
         .then(res => res.data)
         .then(res => {
             setLapTimes(res);
-            // console.log(res);
             let dataSetsForChart = {};
             res.forEach((element,i) => {
                 dataSetsForChart={
@@ -122,65 +108,29 @@ const RaceResultsForm = () => {
                 return dataSetsForChart;
             })
             console.log(dataSetsForChart);
-            // for(let i = 0 ; i<laps.length ; i++){
-            //     dataSetsForChart={
-            //         labels:[driversSelected[i]],
-            //         datasets:[
-            //             {
-            //                 label:'Position',
-            //                 data:res.filter(driver => driver.drivers.driverId === selectedDrivers[i]).map(position => position.position),
-            //                 backgroundColor:[getRandomColor()],
-            //                 fill:false,
-            //             },
-            //             {
-            //                 label:'Lap',
-            //                 data:res.filter(driver => driver.drivers.driverId === selectedDrivers[i]).map(lap => lap.lap),
-            //                 backgroundColor:[getRandomColor()],
-            //                 fill:false,
-            //             }
-            //         ]
-            //     }
-            // }
             setData(dataSetsForChart);
-            // const data = [
-            //     {
-            //         dataSets:dataSets,
-            //     }
-            // ]
-            // setData(dataSets);
-            // const data = {
-            //     labels:res.map(driver => driver.drivers.code),
-            //     datasets:
-            //     [
-            //         {
-            //             label:'Driver Position',
-            //             data:res.map(position => position.position),
-            //             backgroundColor:[getRandomColor()],
-            //         },
-            //         {
-            //             label:'Lap',
-            //             data:res.map(lap => lap.lap),
-            //             backgroundColor:[getRandomColor()],
-            //         }
-            //     ],
-            // };
-            // setData(data);
         });
 
         setLapTimesFlag(true);
     }
-    // console.log(data);
     const onSubmitDrivers = async (e) => {
         // setIsSubmitted(true);
         getLapTimes(e);
-        // selectedD();
     }
 
     useEffect(() => {
+        getRaceResults();
         getQualyResults();
         getDriverStandings();
-        // selectedD();
     }, []);
+
+    if(!AuthService.getCurrentUser()){
+        return(
+          <>
+            <h1>No Permission!</h1>
+          </>
+        )
+      }
 
     return(
         <>

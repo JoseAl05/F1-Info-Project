@@ -3,6 +3,7 @@ import "../../App.css";
 import axios from "axios";
 import ConstructorTable from "./ConstructorTable";
 import AuthHeader from "../../services/auth-header";
+import AuthService from "../../services/auth.service";
 
 const ConstructorList = () => {
   const [constructors, setConstructors] = useState([]);
@@ -46,6 +47,14 @@ const ConstructorList = () => {
     ],
     []
   );
+
+  if(!AuthService.getCurrentUser()){
+    return(
+      <>
+        <h1>No Permission!</h1>
+      </>
+    )
+  }
 
   return (
     <div className="container">

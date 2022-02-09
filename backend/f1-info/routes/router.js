@@ -40,14 +40,14 @@ router.post('/race-by-circuit/',[authJwt.verifyToken],RaceController.getARace);
 router.post('/race-by-year/',[authJwt.verifyToken],RaceController.getARaceByYear);
 
   // RACE RESULTS //
-router.post('/wins-by-driver/',[authJwt.verifyToken],RaceResultsController.getWins);
-router.post('/podiums-by-driver/',[authJwt.verifyToken],RaceResultsController.getPodiums);
-router.post('/scored-races-by-driver/',[authJwt.verifyToken],RaceResultsController.getNumberOfRacesScored);
-router.post('/poles-by-driver/',[authJwt.verifyToken],RaceResultsController.getNumberOfPoles);
-router.post('/points-by-driver/',[authJwt.verifyToken],RaceResultsController.getTotalPointsByDriver);
+router.get('/wins-by-driver',[authJwt.verifyToken],RaceResultsController.getWins);
+router.get('/podiums-by-driver/',[authJwt.verifyToken],RaceResultsController.getPodiums);
+router.get('/scored-races-by-driver/',[authJwt.verifyToken],RaceResultsController.getNumberOfRacesScored);
+router.get('/poles-by-driver/',[authJwt.verifyToken],RaceResultsController.getNumberOfPoles);
+router.get('/points-by-driver/',[authJwt.verifyToken],RaceResultsController.getTotalPointsByDriver);
 router.post('/race-results/:raceId',[authJwt.verifyToken],RaceResultsController.getRaceResults);
-router.post('/laps-by-driver/',[authJwt.verifyToken],RaceResultsController.getLapsCompleted);
-router.post('/total-races-by-driver/',[authJwt.verifyToken],RaceResultsController.getTotalRaces);
+router.get('/laps-by-driver/',[authJwt.verifyToken],RaceResultsController.getLapsCompleted);
+router.get('/total-races-by-driver/',[authJwt.verifyToken],RaceResultsController.getTotalRaces);
 
   // LAPTIMES //
 router.post('/lap-times-by-race/:raceId/',[authJwt.verifyToken],LapTimesController.getLapTimesByRace);
