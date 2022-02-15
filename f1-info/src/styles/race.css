@@ -7,10 +7,6 @@
   .card-title{
     color:#ffffff;
   }
-  .scrollable{
-    max-height: 5rem;
-    overflow-y: auto;
-  }
 
   #container-circuits{
     position: absolute;

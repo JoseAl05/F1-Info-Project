@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTable,usePagination,useGlobalFilter,useAsyncDebounce,useFilters } from 'react-table';
-import "../../styles/circuit.css";
 import "../../App.css"
 
 function GlobalFilter({
@@ -77,7 +76,7 @@ function CircuitTable({columns,data}) {
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
             />
-            <table id="table-of-all-circuits"className="table table-striped table-responsive" {...getTableProps()}>
+            <table id="table-of-all-circuits" className="table table-striped table-responsive" {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTable,usePagination,useGlobalFilter,useFilters,useSortBy } from 'react-table';
-import "../../styles/race.css";
+// import "../../styles/race.css";
 import "../../App.css"
 
 // function GlobalFilter({
