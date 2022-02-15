@@ -1,3 +1,4 @@
+@import-normalize;
 /* ROOT STYLES */
 @font-face {
   font-family: 'f1Font';
@@ -18,7 +19,7 @@
   height: 360px;
   text-align: center;
   color:#ffffff;
-  background-image: linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),url(images/banner.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),url(images/banner.webp);
   background-size:cover;
   background-position:center;
   background-repeat: no-repeat;
@@ -101,7 +102,7 @@
 }
 
 .button-redirection{
-  width: 300px;
+  width: 100%;
   height: 30px;
   border: none;
   color: white;
@@ -109,12 +110,13 @@
   border-radius: 5px;
   box-shadow: inset 0 0 0 0 #D72323;
   transition: ease-out 0.5s;
-  font-size: 20px;
+  font-size: 15px;
   outline: none;
   text-decoration: none;
+  text-align: center;
 }
 .button-redirection:hover{
-  box-shadow: inset 300px 10px 10px 10px #D72323;
+  box-shadow: inset 600px 10px 10px 10px #D72323;
   cursor: pointer;
   color: #000000;
   font-weight: bold;
@@ -233,6 +235,16 @@
 .content-drivers p{
   font-size: 20px;
 }
+.drivers-info{
+  margin-left: 100px;
+  text-align: justify;
+  margin-top: 280px;
+}
+.constructors-info{
+  margin-left: 100px;
+  text-align: justify;
+  margin-top: 450px;
+}
 
 .slide-drivers > div {
   display: flex;
@@ -245,13 +257,15 @@
 }
 .constructors-grid{
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  grid-template-rows: 115px 123px 135px 130px;
 }
 .constructor{
   width: 100%;
   height: auto;
   padding-top: 56.25%;
-  background-size: 270px 160px;
+  background-size: 249px 141px;
   background-position: center;
   background-repeat: no-repeat;
   flex-shrink: 0;
@@ -321,6 +335,41 @@
   background-color: #000000;
 }
 
+
+/* REFERENCES */
+.dashboard-references{
+  margin: 50px 0 50px 0px;
+}
+.references{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.reference-button{
+  text-decoration: none;
+  color: #D72323;
+}
+
+/* FOOTER */
+
+.dashboard-footer{
+  height: 7rem;
+  background-color: #30475E;
+  font-weight: bolder;
+}
+.footer-copyright{
+  margin-top: auto;
+}
+.footer-copyright p{
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  right: 5px;
+}
+.copy{
+  position: relative;
+  top: 80px;
+}
 /* NAVBAR STYLES */
 
 .navbar{
@@ -376,32 +425,3 @@
   .navbar{display: flex;}
   .navbar ul li{display:flex;justify-content: space-between;margin-top: 20px;}
 }
-@media only screen and (max-width : 375px) {
-}
-
-/* Small Devices, Tablets */
-@media only screen and (min-width : 768px) {
-    .nav-menu{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-    }
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {
-
-}
-
-/* Large Devices, Wide Screens */
-@media only screen and (min-width : 1200px) {
-    /* your desktop css */
-    #omos {
-        background-color: #f7f7f7;
-        height: 80vh;
-        clear: both;
-        text-align: center;
-    }
-}
-
