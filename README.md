@@ -29,7 +29,7 @@ git clone https://github.com/JoseAl05/F1-Info-Project.git
 cd F1-Info-Project
 ```
 In your [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) create a database.
-Then in the file **db.js** (F1-Info-Project/backend/f1-info) and change this line:
+Then in the file **db.js** (F1-Info-Project/backend/f1-info) change this line:
 ```
 const sequelize = new Sequelize('name-of-your-database','mysql','your-databse-password',{
     host:'localhost',
