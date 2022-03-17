@@ -28,13 +28,23 @@ Open the Git Bash
 git clone https://github.com/JoseAl05/F1-Info-Project.git
 cd F1-Info-Project
 ```
-Then open the file **f1db.sql** in your MySQL Workbench and run the script.
-When the script has finished run
+In your [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) create a database.
+Then in the file **db.js** (F1-Info-Project/backend/f1-info) and change this line:
+```
+const sequelize = new Sequelize('name-of-your-database','mysql','your-databse-password',{
+    host:'localhost',
+    dialect: 'mysql'
+});
+```
+Now run:
 ```sh
 sequelize db:migrate
 ```
-in your command line to migrate the user model to our database.
-Run the server and install dependencies:
+in your command line to migrate the models to our database.
+
+Open the file **f1db.sql** in your [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) and run the script.
+
+Then run the server and install dependencies:
 ```sh
 cd backend/f1-info
 npm install
