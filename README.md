@@ -7,6 +7,7 @@ F1 Info uses a number of open source projects to work properly:
 
 - [ReactJs]
 - [Create React App]
+- [MySQL]
 - [Bootsrap]
 - [React-Bootsrap]
 - [NodeJs]
@@ -19,30 +20,39 @@ F1 Info uses a number of open source projects to work properly:
 
 F1 Info requires [Node.js](https://nodejs.org/) to run.
 
-Install the dependencies and start the server.
+Clone the repository in your desktop.
 
-Clone the repository in your desktop or download the project.
 Open the Git Bash
 
 ```sh
 git clone https://github.com/JoseAl05/F1-Info-Project.git
 cd F1-Info-Project
-npm i
 ```
-Now run the server:
+Then open the file **f1db.sql** in your MySQL Workbench and run the script.
+When the script has finished run
+```sh
+sequelize db:migrate
+```
+in your command line to migrate the user model to our database.
+Run the server and install dependencies:
 ```sh
 cd backend/f1-info
+npm install
 nodemon app
 (If you don't want to install nodemon dependency)
 node app
 ```
-Go back to the main folder to run the client server:
+Go back to the main folder to install client dependencies and run the client server:
 ```sh
 cd f1-info
+npm install
 npm start
 ```
+You must keep the server and client server running to navigate the website.
+
 [ReactJs]: <https://reactjs.org/>
 [Create React App]:<https://create-react-app.dev/>
+[MySQL]:<https://www.mysql.com/>
 [React-Bootsrap]:<https://react-bootstrap.github.io/>
 [Bootsrap]:<https://getbootstrap.com/>
 [NodeJs]: <http://nodejs.org>
