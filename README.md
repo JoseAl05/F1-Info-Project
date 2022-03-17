@@ -28,14 +28,13 @@ Open the Git Bash
 git clone https://github.com/JoseAl05/F1-Info-Project.git
 cd F1-Info-Project
 npm i
-node app
 ```
 Now run the server:
 ```sh
 cd backend/f1-info
 nodemon app
 (If you don't want to install nodemon dependency)
-npm start
+node app
 ```
 Go back to the main folder to run the client server:
 ```sh
