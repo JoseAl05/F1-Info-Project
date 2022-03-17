@@ -1,4 +1,5 @@
 # Proyecto F1 Info
+![Build Status](https://img.shields.io/badge/in%20build-not%20finished-red)
 F1 Info is a website built with ReactJS, NodeJs and Express. It shows data from the history of F1, you can see all the drivers that have raced in F1, all the constructors, all the circuits, all the seasons and the results of each race.
 
 ## Tech
