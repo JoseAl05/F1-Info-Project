@@ -55,6 +55,9 @@ module.exports = {
                 expiresIn: "1h" // 1 hour
             });
 
+            req.session.user = req.body.username;
+            req.session.token = token;
+
             res.status(200).json({
                 id:user.userId,
                 username:user.username,

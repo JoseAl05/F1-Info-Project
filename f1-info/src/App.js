@@ -11,7 +11,7 @@ import {BrowserRouter as Router,Route,Routes} from 'react-router-dom';
 // import Login from './components/Login/Login';
 // import SignUp from './components/Login/SignUp';
 // import DriversInformation from './components/Drivers/DriversInformation';
-const Dashboard = lazy( () => import('./components/Dashboard'));
+const Dashboard = lazy( () => import('./components/Dashboard/Dashboard'));
 const CircuitList = lazy( () => import('./components/Circuits/CircuitList'));
 const DriverList = lazy( () => import('./components/Drivers/DriverList'));
 const ConstructorList = lazy( () => import('./components/Constructors/ConstructorList'));

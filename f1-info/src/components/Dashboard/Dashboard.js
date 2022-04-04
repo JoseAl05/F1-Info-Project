@@ -1,6 +1,6 @@
 import React, {lazy} from 'react';
-import '../App.css';
-import '../fonts/f1Fonts/stylesheet.css';
+import '../../App.css';
+import '../../fonts/f1Fonts/stylesheet.css';
 import 'react-slideshow-image/dist/styles.css'
 import { Slide } from 'react-slideshow-image';
 import {Link} from 'react-router-dom';
@@ -8,94 +8,115 @@ import { faCar,faUsers,faFlagCheckered,faTable,faBusinessTime, faHourglass, faTh
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /* CIRCUITS IMAGES */
-import albertPark from '../images/albertPark.webp';
-import monza from '../images/monza.webp';
-import interlagos from '../images/interlagos.webp';
-import spa from '../images/spa.webp';
-import susuka from '../images/susuka.webp';
-import circuitOfAmericas from '../images/circuitOfAmericas.png';
+import albertPark from '../../images/albertPark.webp';
+import monza from '../../images/monza.webp';
+import interlagos from '../../images/interlagos.webp';
+import spa from '../../images/spa.webp';
+import susuka from '../../images/susuka.webp';
+import circuitOfAmericas from '../../images/circuitOfAmericas.png';
 
 /* RACES IMAGES */
-import race1 from '../images/race.webp';
-import race2 from '../images/race2.webp';
-import race3 from '../images/race3.webp';
-import race4 from '../images/race4.webp';
+import race1 from '../../images/race.webp';
+import race2 from '../../images/race2.webp';
+import race3 from '../../images/race3.webp';
+import race4 from '../../images/race4.webp';
 
 /* DRIVERS IMAGES */
-import hamilton from '../images/hamilton.webp';
-import russel from '../images/russell.webp';
-import verstappen from '../images/verstappen.webp';
-import perez from '../images/perez.webp';
-import leclerc from '../images/leclerc.webp';
-import sainz from '../images/sainz.webp';
-import norris from '../images/norris.webp';
-import ricciardo from '../images/ricciardo.webp';
-import ocon from '../images/ocon.webp';
-import alonso from '../images/alonso.webp';
-import stroll from '../images/stroll.webp';
-import vettel from '../images/vettel.webp';
-import gasly from '../images/gasly.webp';
-import tsunoda from '../images/tsunoda.webp';
-import bottas from '../images/bottas.webp';
-import zhou from '../images/zhou.webp';
-import schumacher from '../images/shumacher.webp';
-import mazepin from '../images/mazepin.webp';
+import hamilton from '../../images/hamilton.webp';
+import russel from '../../images/russell.webp';
+import verstappen from '../../images/verstappen.webp';
+import perez from '../../images/perez.webp';
+import leclerc from '../../images/leclerc.webp';
+import sainz from '../../images/sainz.webp';
+import norris from '../../images/norris.webp';
+import ricciardo from '../../images/ricciardo.webp';
+import ocon from '../../images/ocon.webp';
+import alonso from '../../images/alonso.webp';
+import stroll from '../../images/stroll.webp';
+import vettel from '../../images/vettel.webp';
+import gasly from '../../images/gasly.webp';
+import tsunoda from '../../images/tsunoda.webp';
+import bottas from '../../images/bottas.webp';
+import zhou from '../../images/zhou.webp';
+import schumacher from '../../images/shumacher.webp';
+import mazepin from '../../images/mazepin.webp';
 
 /* CONSTRUCTORS IMAGES */
-import mercedes from '../images/mercedes.webp';
-import redbull from '../images/redbull.webp';
-import ferrari from '../images/ferrari.webp';
-import mclaren from '../images/mclaren.webp';
-import alpine from '../images/alpine.webp';
-import astonMartin from '../images/astonmartin.webp';
-import alphaTauri from '../images/alphatauri.webp';
-import alfaRomeo from '../images/alfaromeo.webp';
-import williams from '../images/williams.webp';
-import haas from '../images/haas.webp';
+import mercedes from '../../images/mercedes.webp';
+import redbull from '../../images/redbull.webp';
+import ferrari from '../../images/ferrari.webp';
+import mclaren from '../../images/mclaren.webp';
+import alpine from '../../images/alpine.webp';
+import astonMartin from '../../images/astonmartin.webp';
+import alphaTauri from '../../images/alphatauri.webp';
+import alfaRomeo from '../../images/alfaromeo.webp';
+import williams from '../../images/williams.webp';
+import haas from '../../images/haas.webp';
+import LazyImage from './LazyImages';
+import LazyImageSlider from './LazyImagesSlider';
 
 
 const propertiesDriversSlide = {
-    duration: 2000,
-    slidesToShow: 2,
-    slidesToScroll: 2,
+    duration: 3000,
+    // slidesToShow: 2,
+    // slidesToScroll: 2,
     indicators: true,
-    ease:'easing'
+    ease:'easing',
+    arrows:false
 };
 
 /* CIRCUITS IMAGES */
-const albertParkImg = {
-    backgroundImage: 'url(' + albertPark + ')',
-}
-const monzaImg = {
-    backgroundImage:'url(' + monza + ')',
-}
-const interlagosImg = {
-    backgroundImage:'url(' + interlagos + ')',
-}
-const spaImg = {
-    backgroundImage:'url(' + spa + ')',
-}
-const susukaImg = {
-    backgroundImage:'url(' + susuka + ')',
-}
-const circuitsOfAmericasImg = {
-    backgroundImage:'url(' + circuitOfAmericas + ')',
-}
+// const albertParkImg = {
+//     backgroundImage: 'url(' + albertPark + ')',
+// }
+// const monzaImg = {
+//     backgroundImage:'url(' + monza + ')',
+// }
+// const interlagosImg = {
+//     backgroundImage:'url(' + interlagos + ')',
+// }
+// const spaImg = {
+//     backgroundImage:'url(' + spa + ')',
+// }
+// const susukaImg = {
+//     backgroundImage:'url(' + susuka + ')',
+// }
+// const circuitsOfAmericasImg = {
+//     backgroundImage:'url(' + circuitOfAmericas + ')',
+// }
+const albertParkImg = albertPark;
+const monzaImg =monza;
+const interlagosImg =interlagos;
+const spaImg = spa;
+const susukaImg =susuka;
+const circuitsOfAmericasImg =circuitOfAmericas;
+
+const circuitImages = [albertParkImg,monzaImg,interlagosImg,spaImg,susukaImg,circuitsOfAmericasImg];
 
 
 /* RACES IMAGES*/
-const raceImg1 = {
-    backgroundImage:'url(' + race1 + ')',
-}
-const raceImg2 = {
-    backgroundImage:'url(' + race2 + ')',
-}
-const raceImg3 = {
-    backgroundImage:'url(' + race3 + ')',
-}
-const raceImg4 = {
-    backgroundImage:'url(' + race4 + ')',
-}
+// const raceImg1 = {
+//     backgroundImage:'url(' + race1 + ')',
+// }
+// const raceImg2 = {
+//     backgroundImage:'url(' + race2 + ')',
+// }
+// const raceImg3 = {
+//     backgroundImage:'url(' + race3 + ')',
+// }
+// const raceImg4 = {
+//     backgroundImage:'url(' + race4 + ')',
+// }
+const raceImg1 = race1;
+
+const raceImg2 = race2;
+
+const raceImg3 = race3;
+
+const raceImg4 = race4;
+
+
+const racesImages = [raceImg1,raceImg2,raceImg3,raceImg4];
 
 /* DRIVERS IMAGES */
 const slideDriverImages = [
@@ -120,36 +141,18 @@ const slideDriverImages = [
 ]
 
 /* CONSTRUCTORS IMAGES */
-const mercedesImg = {
-    backgroundImage:'url(' + mercedes + ')',
-}
-const redbullImg = {
-    backgroundImage:'url(' + redbull + ')',
-}
-const ferrariImg = {
-    backgroundImage:'url(' + ferrari + ')',
-}
-const mclarenImg = {
-    backgroundImage:'url(' + mclaren + ')',
-}
-const alpineImg = {
-    backgroundImage:'url(' + alpine + ')',
-}
-const astonMartinImg = {
-    backgroundImage:'url(' + astonMartin + ')',
-}
-const alphaTauriImg = {
-    backgroundImage:'url(' + alphaTauri + ')',
-}
-const alfaRomeoImg = {
-    backgroundImage:'url(' + alfaRomeo + ')',
-}
-const williamsImg = {
-    backgroundImage:'url(' + williams + ')',
-}
-const haasImg = {
-    backgroundImage:'url(' + haas + ')',
-}
+const mercedesImg = mercedes;
+const redbullImg = redbull;
+const ferrariImg = ferrari;
+const mclarenImg = mclaren;
+const alpineImg = alpine;
+const astonMartinImg = astonMartin;
+const alphaTauriImg = alphaTauri;
+const alfaRomeoImg = alfaRomeo;
+const williamsImg = williams;
+const haasImg = haas;
+
+const constructorsImages = [mercedesImg,redbullImg,ferrariImg,mclarenImg,alpineImg,astonMartinImg,alphaTauriImg,alfaRomeoImg,williamsImg,haasImg];
 
 
 
@@ -171,45 +174,57 @@ const Dashboard = () => {
             <section className="dashboard-circuits-races">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm left-col">
+                        {/* <div className="col-sm left-col"> */}
                             <div className="border--top-left">
                                 <span className="border-span"></span>
                                 <div className="content-circuits">
                                     <h1 className="circuit-header">Circuits</h1>
                                     <div className="slider">
                                         <div className="slider-content">
-                                            <div className="image-content" style={albertParkImg}></div>
+                                            {circuitImages.map((circuits,index)=>(
+                                                <LazyImage
+                                                    key={index}
+                                                    src={circuits}
+                                                />
+                                            ))}
+                                            {/* <div className="image-content" style={albertParkImg}></div>
                                             <div className="image-content" style={monzaImg}></div>
                                             <div className="image-content" style={interlagosImg}></div>
                                             <div className="image-content" style={spaImg}></div>
                                             <div className="image-content" style={susukaImg}></div>
-                                            <div className="image-content" style={circuitsOfAmericasImg}></div>
+                                            <div className="image-content" style={circuitsOfAmericasImg}></div> */}
                                         </div>
                                     </div>
                                     <p>A list of all the circuits that F1 has raced on. You can look at the circuits of each country and see how many races have been held, the years of the races and much more!</p>
                                     <Link to={"/circuits"} type="button" className="button-redirection">Go to Circuits!</Link>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-sm middle-col">
-                        </div>
-                        <div className="col-sm right-col">
+                        {/* </div> */}
+                        {/* <div className="col-sm middle-col">
+                        </div> */}
+                        {/* <div className="col-sm right-col"> */}
                             <div className="border--top-right ml-auto">
                                 <div className="content-races">
                                     <h1 className="races-header">Races</h1>
                                     <div className="slider">
                                         <div className="slider-content">
-                                            <div className="image-content" style={raceImg1}></div>
+                                        {racesImages.map((races,index)=>(
+                                                <LazyImage
+                                                    key={index}
+                                                    src={races}
+                                                />
+                                        ))}
+                                            {/* <div className="image-content" style={raceImg1}></div>
                                             <div className="image-content" style={raceImg2}></div>
                                             <div className="image-content" style={raceImg3}></div>
-                                            <div className="image-content" style={raceImg4}></div>
+                                            <div className="image-content" style={raceImg4}></div> */}
                                         </div>
                                     </div>
                                     <p>A list of all the circuits that F1 has raced on. You can look at the circuits of each country and see how many races have been held, the year of the race and much more!</p>
                                     <Link to={"/races"} type="button" className="button-redirection">Go to Races!</Link>
                                 </div>
                             </div>
-                        </div>
+                        {/* </div> */}
                     </div>
                 </div>
             </section>
@@ -220,7 +235,15 @@ const Dashboard = () => {
                             <div className="content-drivers">
                                 <h1 className="drivers-header">Drivers</h1>
                                 <Slide {...propertiesDriversSlide}>
-                                    <div className="slide-drivers">
+                                    {
+                                        slideDriverImages.map((drivers,index) =>(
+                                            <LazyImageSlider
+                                                key={index}
+                                                src={drivers}
+                                            />
+                                        ))
+                                    }
+                                    {/* <div className="slide-drivers">
                                         <div style={{"backgroundImage":`url(${slideDriverImages[0]})`}}/>
                                     </div>
                                     <div className="slide-drivers">
@@ -273,7 +296,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className="slide-drivers">
                                         <div style={{"backgroundImage":`url(${slideDriverImages[17]})`}}/>
-                                    </div>
+                                    </div> */}
                                 </Slide>
                             </div>
                         </div>
@@ -298,7 +321,15 @@ const Dashboard = () => {
                                 <div className="content-constructors">
                                     <h1 className="constructors-header">Constructors</h1>
                                     <div className="constructors-grid">
-                                        <div className="constructor" style={mercedesImg}></div>
+                                        {
+                                            constructorsImages.map((constructors,index) =>(
+                                                <LazyImage
+                                                    key={index}
+                                                    src={constructors}
+                                                />
+                                            ))
+                                        }
+                                        {/* <div className="constructor" style={mercedesImg}></div>
                                         <div className="constructor" style={redbullImg}></div>
                                         <div className="constructor" style={ferrariImg}></div>
                                         <div className="constructor" style={mclarenImg}></div>
@@ -307,7 +338,7 @@ const Dashboard = () => {
                                         <div className="constructor" style={alphaTauriImg}></div>
                                         <div className="constructor" style={alfaRomeoImg}></div>
                                         <div className="constructor" style={williamsImg}></div>
-                                        <div className="constructor" style={haasImg}></div>
+                                        <div className="constructor" style={haasImg}></div> */}
                                     </div>
                                 </div>
                             </div>

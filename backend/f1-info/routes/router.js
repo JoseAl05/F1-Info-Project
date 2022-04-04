@@ -16,7 +16,7 @@ router.use(function(req, res, next) {
     // res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "x-access-token,Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
   // USERS //
 router.post('/signup/',[verifySignUp.checkDuplicateUsername],[verifySignUp.checkDuplicateEmail],UsersController.registerAUser);

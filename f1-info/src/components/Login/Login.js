@@ -64,39 +64,41 @@ const Login = () =>{
 
     return(
         <>
-            <ToastContainer autoClose={2000}/>
-            <div className='row'>
-                <div className='col-lg-6'>
-                    <div className='login-wrapper'>
-                        <h1 className='title-login'>Login</h1>
-                        <form onSubmit={loginAUser}>
-                            <div className='form-group'>
-                                <label>
-                                    <p className='label-login'>Username</p>
-                                    <input className="form-control" type="text" name="username" onChange={handleUsernameChange}/>
-                                </label>
-                            </div>
-                            <div className='form-group'>
-                                <label>
-                                    <p className='label-login'>Password</p>
-                                    <input className="form-control" type="password" name="password" onChange={handlePasswordChange}/>
-                                </label>
-                            </div>
-                            <div className='form-group'>
-                                <button className="form-control mt-3" type="submit" id="btn-submit-login">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div className='col-lg-6'>
-                    <div className='eslogan-content'>
-                        <div className='logo-wrapper'>
-                            <img src={logo} className="logo-login" alt='logo'/>
+            <section className='login-background'>
+                <ToastContainer autoClose={2000}/>
+                <div className='row'>
+                    <div className='col-lg-6'>
+                        <div className='login-wrapper'>
+                            <h1 className='title-login'>Login</h1>
+                            <form onSubmit={loginAUser}>
+                                <div className='form-group'>
+                                    <label>
+                                        <p className='label-login'>Username</p>
+                                        <input className="form-control" type="text" name="username" placeholder='Enter your Username' onChange={handleUsernameChange}/>
+                                    </label>
+                                </div>
+                                <div className='form-group'>
+                                    <label>
+                                        <p className='label-login'>Password</p>
+                                        <input className="form-control" type="password" name="password" placeholder='Entero your Password' onChange={handlePasswordChange}/>
+                                    </label>
+                                </div>
+                                <div className='form-group'>
+                                    <button className="btn btn-danger form-control mt-3" type="submit" id="btn-submit-login">Login!</button>
+                                </div>
+                            </form>
                         </div>
-                        <p>Be ready to know all about F1.!</p>
+                    </div>
+                    <div className='col-lg-6'>
+                        <div className='eslogan-content'>
+                            <div className='logo-wrapper'>
+                                <img src={logo} className="logo-login" alt='logo'/>
+                            </div>
+                            <p>Be ready to know all about F1.!</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     )
 
